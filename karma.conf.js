@@ -1,7 +1,7 @@
 module.exports = function(config) {
     config.set({
       browsers: ['PhantomJS'],
-      reporters: ['dots', 'coverage'],
+      reporters: ['progress', 'coverage'],
       preprocessors: {
         'src/**/*.js': ['coverage']
       },
