@@ -13,6 +13,9 @@ module.exports = function(config) {
       frameworks: ['jasmine'],
       files: [
         'src/Core.js',
+        'src/DOM/**/*.js',
+        'src/Component.js',
+        'src/Container.js',
         'test/**/*.spec.js'
       ]
     });

@@ -1,29 +1,61 @@
-var Kjs = {
-    scope: null,
-    options: {
-        fx: {
-            animations: true,
-            duration: 1
-        },
-        map: {
-            apiKey: String
-        }
+Kjs.Component = function (config) {
+    Kjs.merge(this, config);
+};
+
+(function (self) {
+    self.el;
+    self.template;
+    self.parent;
+} (Kjs.Component.prototype));
+Kjs.Container = function (config) {
+    Kjs.Component.constructor.call(this);
+};
+
+(function (self) {
+    self.layout = null;
+    self.items = null;
+}(Kjs.Container.prototype));
+'use strict';
+
+var Kjs = {};
+
+Kjs.config = {
+    fx: {
+        animations: true,
+        duration: 1
     },
-    constructor: function (scope, options) {
-        this.scope = scope;
-        this.options = options;
+    map: {
+        apiKey: String
     }
 };
 
 Kjs.namespace = function (namespace) {
-    var ns = namespace.split('.'), key, i;
+    var ns = namespace.split('.'), 
+        branch = this,
+        i;
+
     for (i = 0; i < ns.length; ++i) {
+        if (!branch[ns[i]]) {
+            branch[ns[i]] = {}
+        }
         
+        branch = branch[ns[i]];
     }
+
+    return branch;
 };
 
 Kjs.clone = function (source) {
-    return Object.assign({}, source);
+    var target = Object();
+
+    for (var nextKey in source) {
+        // Avoid bugs when hasOwnProperty is shadowed
+        if (Object.prototype.hasOwnProperty.call(source, nextKey)) {
+            target[nextKey] = source[nextKey];
+        }
+    }
+
+    return target;
 };
 
 Kjs.merge = function (target, source) {
