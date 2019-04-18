@@ -1,0 +1,29 @@
+{
+  "name": "k",
+  "version": "1.0.0",
+  "description": "Fast & simple Web application UI framework",
+  "main": "Gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "keywords": [
+    "web",
+    "ui",
+    "simple",
+    "components",
+    "form",
+    "charts",
+    "layout"
+  ],
+  "author": "Dariusz Jakubowski",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "jasmine": "^3.4.0",
+    "karma": "^4.1.0"
+  }
+}
