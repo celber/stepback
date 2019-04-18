@@ -1,9 +1,18 @@
 module.exports = function(config) {
     config.set({
-      browsers: ['Chrome'],
+      browsers: ['PhantomJS'],
+      reporters: ['dots', 'coverage'],
+      preprocessors: {
+        'src/**/*.js': ['coverage']
+      },
+      coverageReporter: {
+        reporters: [
+            { type: 'lcov', subdir: '.'},
+        ]
+      },
       frameworks: ['jasmine'],
       files: [
-        'src/**/*.js',
+        'src/Core.js',
         'test/**/*.spec.js'
       ]
     });

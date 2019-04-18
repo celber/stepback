@@ -1,0 +1,1 @@
+var Kjs={scope:null,options:{fx:{animations:!0,duration:1},map:{apiKey:String}},constructor:function(n,o){this.scope=n,this.options=o},namespace:function(n){var o,t=n.split(".");for(o=0;o<t.length;++o);},clone:function(n){return Object.assign({},n)},merge:function(n,o){for(var t in o)"object"==typeof o[t]?(void 0===n[t]&&(n[t]={}),this.merge(n[t],o[t])):n[t]=o[t]}};
