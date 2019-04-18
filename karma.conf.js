@@ -14,6 +14,7 @@ module.exports = function(config) {
       files: [
         'src/Core.js',
         'src/DOM/**/*.js',
+        'src/ComponentManager.js',
         'src/Component.js',
         'src/Container.js',
         'test/**/*.spec.js'

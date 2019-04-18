@@ -1,9 +1,9 @@
 Kjs.Component = function (config) {
+    Kjs.merge(this, config);
+
     if (!config.id) {
         this.id = Kjs.Component.getId();
     }
-
-    Kjs.merge(this, config);
 };
 
 Kjs.Component.NEXT_ID = 1;
@@ -28,3 +28,5 @@ Kjs.Component.getId = function () {
         return this;
     };
 } (Kjs.Component.prototype));
+
+Kjs.ComponentManager.register('component', Kjs.Component);
