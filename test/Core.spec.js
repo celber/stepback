@@ -1,5 +1,5 @@
 describe('Core', function() {
-    it('merges object', function () {
+    it('extends object', function () {
         var a = {
             foo: 1,
             bar: {
@@ -8,7 +8,7 @@ describe('Core', function() {
             }
         };
 
-        Kjs.merge(a, {
+        Kjs.extend(a, {
             bar: {
                 taz: 99
             }

@@ -3,6 +3,7 @@ describe('Container', function () {
 
     beforeAll(function () {
         container = new Kjs.Container({
+            template: '<div class="testingContainer"></div>',
             items: [{
                 componentType: 'component',
                 id: 'childComponent0'
@@ -14,6 +15,8 @@ describe('Container', function () {
     });
 
     it('renders items', function () {
-        
+        container.renderTo(new Kjs.Element(document.body));
+
+        expect(document.querySelector('#childComponent0')).toBeDefined();
     });
 });

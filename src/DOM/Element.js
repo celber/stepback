@@ -1,6 +1,6 @@
 Kjs.Element = function (el, _config) {
     this.nativeElement = el;
-    Kjs.merge(this.config, _config);
+    Kjs.extend(this.config, _config);
 }; 
 
 Kjs.Element.render = function (template) {
@@ -20,7 +20,7 @@ Kjs.Element.render = function (template) {
     extend.listeners = {};
     extend.template = null;
 
-    Kjs.merge(extend, {
+    Kjs.extend(extend, {
         id: null,
         nativeElement: null
     });

@@ -41,11 +41,11 @@ Kjs.clone = function (source) {
     return target;
 };
 
-Kjs.merge = function (target, source) {
+Kjs.extend = function (target, source) {
     for (var key in source) {
         if (typeof source[key] == 'object') {
             (target[key] === undefined) && (target[key] = {}); 
-            this.merge(target[key], source[key]);
+            this.extend(target[key], source[key]);
         } else {
             target[key] = source[key];
         }

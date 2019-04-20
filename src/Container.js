@@ -1,22 +1,29 @@
 Kjs.Container = function (config) {
     Kjs.Component.call(this, config);
 
-    this.createItems();
+    for (var i in this.items) {
+        this.items[i] = this.createItem(this.items[i]);
+    }
 };
 
 (function (self) {
+    Kjs.extend(self, Kjs.Component.prototype);
+
     self.layout = null;
     self.items = [];
 
-    self.append = function (item) {
+    self.addItem = function (item) {
         this.items.push(item);
     };
 
-    self.createItems = function () {
-        for (var i in this.items) {
-            console.log(this.items[i]);
+    self.createItem = function (itemConfig) {
+        return Kjs.ComponentManager.create(itemConfig);
+    };
 
-            this.items[i] = Kjs.ComponentManager.create(this.items[i]);
+    self.renderTo = function(target) {
+        Kjs.Component.prototype.renderTo.call(this, target);
+        for (var i in this.items) {
+            this.items[i].renderTo(this.el);
         }
-    }
+    };
 }(Kjs.Container.prototype));

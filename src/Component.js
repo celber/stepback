@@ -1,5 +1,6 @@
-Kjs.Component = function (config) {
-    Kjs.merge(this, config);
+Kjs.Component = function (_config) {
+    var config = _config || {};
+    Kjs.extend(this, config);
 
     if (!config.id) {
         this.id = Kjs.Component.getId();
@@ -16,11 +17,11 @@ Kjs.Component.getId = function () {
     self.id;
     self.el;
     self.rendered = false;
-    self.template;
+    self.template = '<div></div>';
     self.parent;
 
     self.renderTo = function (target) {
-        this.el = Kjs.Element.render(this.template);
+        this.el = this.el || Kjs.Element.render(this.template);
         this.el.setAttribute('id', this.id);
         this.parent = target;
         target.append(this.el);
