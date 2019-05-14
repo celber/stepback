@@ -43,9 +43,11 @@ Kjs.clone = function (source) {
 
 Kjs.extend = function (target, source) {
     for (var key in source) {
-        if (typeof source[key] == 'object') {
+        if (typeof source[key] == 'object' && typeof target[key] == 'object' && target[key] !== null) {
             (target[key] === undefined) && (target[key] = {}); 
             this.extend(target[key], source[key]);
+        } else if (source[key] instanceof Array && target[key] instanceof Array) {
+            target[key] = target[key].concat(source[key]);
         } else {
             target[key] = source[key];
         }

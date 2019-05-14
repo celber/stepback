@@ -41,16 +41,19 @@ Kjs.clone = function (source) {
     return target;
 };
 
-Kjs.merge = function (target, source) {
+Kjs.extend = function (target, source) {
     for (var key in source) {
-        if (typeof source[key] == 'object') {
+        if (typeof source[key] == 'object' && typeof target[key] == 'object' && target[key] !== null) {
             (target[key] === undefined) && (target[key] = {}); 
-            this.merge(target[key], source[key]);
+            this.extend(target[key], source[key]);
+        } else if (source[key] instanceof Array && target[key] instanceof Array) {
+            target[key] = target[key].concat(source[key]);
         } else {
             target[key] = source[key];
         }
     }
 };
+
 Kjs.ComponentManager = function () {
 
 };
@@ -79,9 +82,11 @@ Kjs.ComponentManager = function () {
 }(Kjs.ComponentManager.prototype));
 
 Kjs.ComponentManager = new Kjs.ComponentManager();
+"use strict";
 Kjs.Component = function (_config) {
     var config = _config || {};
-    Kjs.merge(this, config);
+
+    Kjs.extend(this, config);
 
     if (!config.id) {
         this.id = Kjs.Component.getId();
@@ -98,16 +103,33 @@ Kjs.Component.getId = function () {
     self.id;
     self.el;
     self.rendered = false;
-    self.template;
     self.parent;
+    self.classList = [];
+
+    self.template = '<div></div>';
 
     self.renderTo = function (target) {
-        this.el = Kjs.Element.render(this.template);
+        this.el = this.el || Kjs.Element.render(this.template);
         this.el.setAttribute('id', this.id);
+        if (this.classList.length) {
+            this.el.addClass(this.classList);
+        }
         this.parent = target;
         target.append(this.el);
         this.rendered = true;
         return this;
+    };
+
+    self.addClass = function (cls) {
+        this.el.addClass(cls);
+        this.classList.push(cls);
+    };
+
+    self.removeClass = function (cls) {
+        this.el.removeClass(cls);
+        this.classList = this.classList.filter(function(value) {
+            return value !== cls;
+        });
     };
 } (Kjs.Component.prototype));
 
@@ -115,28 +137,39 @@ Kjs.ComponentManager.register('component', Kjs.Component);
 Kjs.Container = function (config) {
     Kjs.Component.call(this, config);
 
-    this.createItems();
+    for (var i in this.items) {
+        this.items[i] = this.createItem(this.items[i]);
+    }
 };
 
 (function (self) {
+    Kjs.extend(self, Kjs.Component.prototype);
+
+    self.classList = self.classList.concat(['kjs-container']);
     self.layout = null;
     self.items = [];
 
-    self.append = function (item) {
-        this.items.push(item);
+    self.addItem = function (item) {
+        this.items.push(this.createItem(item));
+        this.renderTo(this.parent);
     };
 
-    self.createItems = function () {
+    self.createItem = function (itemConfig) {
+        return Kjs.ComponentManager.create(itemConfig);
+    };
+
+    self.renderTo = function(target) {
+        Kjs.Component.prototype.renderTo.call(this, target);
         for (var i in this.items) {
-            this.items[i] = Kjs.ComponentManager.create(this.items[i]);
+            this.items[i].rendered || this.items[i].renderTo(this.el);
         }
     };
-
-    Kjs.merge(self, Kjs.Component.prototype);
 }(Kjs.Container.prototype));
-Kjs.Element = function (el, _config) {
+'use strict';
+
+Kjs.Element = function (el, config) {
     this.nativeElement = el;
-    Kjs.merge(this.config, _config);
+    Kjs.extend(this.config, config);
 }; 
 
 Kjs.Element.render = function (template) {
@@ -145,28 +178,25 @@ Kjs.Element.render = function (template) {
     var html = template.trim(); // Never return a text node of whitespace as the result
     tempEl.innerHTML = html;
     
-    element = new Kjs.Element(tempEl.firstChild);
+    element = new Kjs.Element(document.adoptNode(tempEl.content.firstChild));
     element.template = template;
 
     return element;
 };
 
 (function (extend) {
+    extend.id = null;
+    extend.nativeElement = null;
     extend.config = {};
     extend.listeners = {};
     extend.template = null;
-
-    Kjs.merge(extend, {
-        id: null,
-        nativeElement: null
-    });
 
     extend.hasClass = function (cls) {
         return Array.prototype.indexOf.call(this.nativeElement.classList, cls) !== -1;
     };
 
     extend.addClass = function (cls) {
-        this.nativeElement.classList.add(cls);
+        this.nativeElement.classList.add.apply(this.nativeElement.classList, arguments);
     };
 
     extend.removeClass = function (cls) {
@@ -205,9 +235,6 @@ Kjs.Element.render = function (template) {
     extend.setAttribute = function (name, value) {
         this.nativeElement.setAttribute(name, value);
     }; 
-
-    extend._detachFromDOM = function () {};
-    extend._attachToDOM = function () {};
 })(Kjs.Element.prototype);
 Kjs.queryOne = function (query) {
     return new Kjs.Element(document.querySelector(query));
@@ -220,6 +247,16 @@ Kjs.queryAll = function (query) {
             return new Kjs.Element(el);
     });
 };
+Kjs.namespace("layout").Fit = function (_config) {
+    Kjs.Container.call(this, _config);
+
+    console.log(_config);
+};
+
 (function (extend) {
-    
-})(Kjs.namespace("layout"));
+    Kjs.extend(extend, Kjs.Container.prototype);
+    extend.classList = extend.classList.concat(['kjs-fit-container']);
+    extend.template = '<div class="testingContainer"></div>';
+})(Kjs.namespace("layout").Fit.prototype);
+
+Kjs.ComponentManager.register('fit', Kjs.namespace("layout").Fit);

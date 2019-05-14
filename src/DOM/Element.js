@@ -1,6 +1,8 @@
-Kjs.Element = function (el, _config) {
+'use strict';
+
+Kjs.Element = function (el, config) {
     this.nativeElement = el;
-    Kjs.extend(this.config, _config);
+    Kjs.extend(this.config, config);
 }; 
 
 Kjs.Element.render = function (template) {
@@ -9,28 +11,25 @@ Kjs.Element.render = function (template) {
     var html = template.trim(); // Never return a text node of whitespace as the result
     tempEl.innerHTML = html;
     
-    element = new Kjs.Element(tempEl.firstChild);
+    element = new Kjs.Element(document.adoptNode(tempEl.content.firstChild));
     element.template = template;
 
     return element;
 };
 
 (function (extend) {
+    extend.id = null;
+    extend.nativeElement = null;
     extend.config = {};
     extend.listeners = {};
     extend.template = null;
-
-    Kjs.extend(extend, {
-        id: null,
-        nativeElement: null
-    });
 
     extend.hasClass = function (cls) {
         return Array.prototype.indexOf.call(this.nativeElement.classList, cls) !== -1;
     };
 
     extend.addClass = function (cls) {
-        this.nativeElement.classList.add(cls);
+        this.nativeElement.classList.add.apply(this.nativeElement.classList, arguments);
     };
 
     extend.removeClass = function (cls) {
@@ -69,7 +68,4 @@ Kjs.Element.render = function (template) {
     extend.setAttribute = function (name, value) {
         this.nativeElement.setAttribute(name, value);
     }; 
-
-    extend._detachFromDOM = function () {};
-    extend._attachToDOM = function () {};
 })(Kjs.Element.prototype);
