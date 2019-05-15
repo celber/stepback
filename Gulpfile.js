@@ -1,5 +1,7 @@
 var gulp = require('gulp');
 var KarmaServer = require('karma').Server;
+var sourcemaps = require('gulp-sourcemaps');
+var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 var serve = require('gulp-serve');
@@ -18,7 +20,12 @@ function _concat () {
       './src/DOM/*.js',
       './src/layout/*.js'
     ])
+    .pipe(sourcemaps.init())
+    .pipe(babel({
+        presets: ['@babel/env']
+    }))
     .pipe(concat('k.js'))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist/'));
   }
 
