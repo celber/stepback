@@ -21,19 +21,27 @@
   "author": "Dariusz Jakubowski",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "babel": "^6.23.0",
     "docsify-themeable": "^0.7.2",
     "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "^3.1.0",
+    "gulp-sass": "^4.0.2",
     "gulp-serve": "^1.4.0",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-watch": "^5.0.1",
     "jasmine": "2.5.2",
     "karma": "^4.1.0",
+    "karma-babel-preprocessor": "^8.0.0-beta.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
     "karma-firefox-launcher": "^1.1.0",
     "karma-jasmine": "^2.0.1",
     "karma-phantomjs-launcher": "^1.0.4",
+    "node-sass": "^4.12.0",
     "puppeteer": "^1.15.0"
   }
 }

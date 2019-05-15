@@ -5,7 +5,20 @@ module.exports = function(config) {
       browsers: ['FirefoxHeadless', 'ChromeHeadless'],
       reporters: ['progress', 'coverage'],
       preprocessors: {
-        'src/**/*.js': ['coverage']
+        'src/**/*.js': ['coverage', 'babel'],
+        'test/**/*.js': ['babel']
+      },
+      babelPreprocessor: {
+        options: {
+          presets: ['@babel/preset-env'],
+          sourceMap: 'inline'
+        },
+        filename: function (file) {
+          return file.originalPath.replace(/\.js$/, '.es5.js');
+        },
+        sourceFileName: function (file) {
+          return file.originalPath;
+        }
       },
       coverageReporter: {
         reporters: [
