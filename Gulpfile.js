@@ -6,11 +6,14 @@ var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 var serve = require('gulp-serve');
 var watch = require('gulp-watch');
+var sass = require('gulp-sass');
+ 
+sass.compiler = require('node-sass');
 
 gulp.task('serve', serve('.'));
 
 
-function _concat () {
+function _concatJS () {
   return gulp
     .src([
       './src/Core.js',
@@ -18,7 +21,7 @@ function _concat () {
       './src/Component.js',
       './src/Container.js',
       './src/DOM/*.js',
-      './src/layout/*.js'
+      './src/layout/Fit/*.js'
     ])
     .pipe(sourcemaps.init())
     .pipe(babel({
@@ -27,19 +30,32 @@ function _concat () {
     .pipe(concat('k.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist/'));
-  }
+}
 
-gulp.task('concat', _concat);
+gulp.task('concatJS', _concatJS);
 
-function _minify() {
+
+function _buildSCSS () {
+  return gulp.src('./src/**/*.scss')
+  .pipe(sourcemaps.init())
+  .pipe(sass.sync().on('error', sass.logError))
+  .pipe(concat('k.css'))
+  .pipe(gulp.dest('./dist'))
+  .pipe(sourcemaps.write());
+};
+
+gulp.task('buildSCSS', _buildSCSS);
+
+function _minifyJS() {
   return gulp.src(['./dist/k.js'])
     .pipe(minify())
     .pipe(gulp.dest('dist'))
 }
 
-gulp.task('minify', _minify);
+gulp.task('minifyJS', _minifyJS);
 
-gulp.task('build', gulp.series('concat', 'minify'));
+gulp.task('buildJS', gulp.series('concatJS', 'minifyJS'));
+
 
 /**
  * Run test once and exit
@@ -63,4 +79,4 @@ gulp.task('tdd', function _test(done) {
   }, done).start();
 });
 
-//gulp.task('default', ['build']);
+gulp.task('default', gulp.series('buildSCSS','buildJS'));

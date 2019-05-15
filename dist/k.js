@@ -54,6 +54,10 @@ Kjs.extend = function (target, source) {
     }
   }
 };
+
+Kjs.html = function (strings) {
+  return strings;
+};
 "use strict";
 
 Kjs.ComponentManager = function () {};
@@ -253,6 +257,18 @@ Kjs.queryAll = function (query) {
 };
 "use strict";
 
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["<div class=\"testingContainer\"></div>"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 Kjs.namespace("layout").Fit = function (_config) {
   Kjs.Container.call(this, _config);
   console.log(_config);
@@ -261,7 +277,7 @@ Kjs.namespace("layout").Fit = function (_config) {
 (function (extend) {
   Kjs.extend(extend, Kjs.Container.prototype);
   extend.classList = extend.classList.concat(['kjs-fit-container']);
-  extend.template = "<div class=\"testingContainer\">\n    </div>";
+  extend.template = Kjs.html(_templateObject());
 })(Kjs.namespace("layout").Fit.prototype);
 
 Kjs.ComponentManager.register('fit', Kjs.namespace("layout").Fit);

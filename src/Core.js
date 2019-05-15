@@ -53,3 +53,7 @@ Kjs.extend = function (target, source) {
         }
     }
 };
+
+Kjs.html = function (strings, ...values) {
+    return strings;
+}

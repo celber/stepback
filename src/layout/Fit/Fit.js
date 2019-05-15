@@ -7,9 +7,8 @@ Kjs.namespace("layout").Fit = function (_config) {
 (function (extend) {
     Kjs.extend(extend, Kjs.Container.prototype);
     extend.classList = extend.classList.concat(['kjs-fit-container']);
-    extend.template = `
-        <div class="testingContainer">
-        </div>`;
+    
+    extend.template = Kjs.html`<div class="testingContainer"></div>`;
 })(Kjs.namespace("layout").Fit.prototype);
 
 Kjs.ComponentManager.register('fit', Kjs.namespace("layout").Fit);
