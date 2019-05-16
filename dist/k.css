@@ -1,4 +1,8 @@
 .kjs-fit-container {
-  background: red; }
+  background: red;
+  display: block;
+  position: relative; }
 
-/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxheW91dC9GaXQvRml0LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsa0JBQWtCLENBQUM7RUFDZixVQUFVLEVBQUUsR0FBRyxHQUNsQiIsImZpbGUiOiJrLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5ranMtZml0LWNvbnRhaW5lciB7XHJcbiAgICBiYWNrZ3JvdW5kOiByZWQ7XHJcbn0iXX0= */
+.kjs-fit-container > * {
+  height: 100%;
+  width: 100%; }

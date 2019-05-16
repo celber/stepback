@@ -11,11 +11,16 @@ Kjs.Container = function (config) {
 
     self.classList = self.classList.concat(['kjs-container']);
     self.layout = null;
+    self.containerEl = null;
     self.items = [];
 
     self.addItem = function (item) {
         this.items.push(this.createItem(item));
         this.renderTo(this.parent);
+    };
+
+    self.getContainerEl = function () {
+        return this.el;
     };
 
     self.createItem = function (itemConfig) {
@@ -24,8 +29,15 @@ Kjs.Container = function (config) {
 
     self.renderTo = function(target) {
         Kjs.Component.prototype.renderTo.call(this, target);
+
+        this.containerEl = this.getContainerEl();
+
         for (var i in this.items) {
-            this.items[i].rendered || this.items[i].renderTo(this.el);
+            this.items[i].rendered || this.items[i].renderTo(this.containerEl);
         }
     };
+
+
 }(Kjs.Container.prototype));
+
+Kjs.ComponentManager.register('container', Kjs.Container);

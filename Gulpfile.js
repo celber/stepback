@@ -21,6 +21,7 @@ function _concatJS () {
       './src/Component.js',
       './src/Container.js',
       './src/DOM/*.js',
+      './src/Button/Button.js',
       './src/layout/Fit/*.js'
     ])
     .pipe(sourcemaps.init())

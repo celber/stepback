@@ -44,19 +44,26 @@ Kjs.clone = function (source) {
 
 Kjs.extend = function (target, source) {
   for (var key in source) {
-    if (_typeof(source[key]) == 'object' && _typeof(target[key]) == 'object' && target[key] !== null) {
+    if (source[key] instanceof Array) {
+      target[key] === undefined && (target[key] = []);
+      target[key] = target[key].concat(source[key]);
+    } else if (_typeof(source[key]) == 'object' && _typeof(target[key]) == 'object' && target[key] !== null) {
       target[key] === undefined && (target[key] = {});
       this.extend(target[key], source[key]);
-    } else if (source[key] instanceof Array && target[key] instanceof Array) {
-      target[key] = target[key].concat(source[key]);
     } else {
       target[key] = source[key];
     }
   }
 };
 
-Kjs.html = function (strings) {
-  return strings;
+Kjs.html = function () {
+  var output = "";
+  var strings = arguments[0];
+  var values = Array.prototype.slice.call(arguments, 1);
+  strings.forEach(function (string, i) {
+    output += string + values[i];
+  });
+  return output;
 };
 "use strict";
 
@@ -118,7 +125,7 @@ Kjs.Component.getId = function () {
     this.el.setAttribute('id', this.id);
 
     if (this.classList.length) {
-      this.el.addClass(this.classList);
+      this.el.addClass.apply(this.el, this.classList);
     }
 
     this.parent = target;
@@ -155,11 +162,16 @@ Kjs.Container = function (config) {
   Kjs.extend(self, Kjs.Component.prototype);
   self.classList = self.classList.concat(['kjs-container']);
   self.layout = null;
+  self.containerEl = null;
   self.items = [];
 
   self.addItem = function (item) {
     this.items.push(this.createItem(item));
     this.renderTo(this.parent);
+  };
+
+  self.getContainerEl = function () {
+    return this.el;
   };
 
   self.createItem = function (itemConfig) {
@@ -168,12 +180,15 @@ Kjs.Container = function (config) {
 
   self.renderTo = function (target) {
     Kjs.Component.prototype.renderTo.call(this, target);
+    this.containerEl = this.getContainerEl();
 
     for (var i in this.items) {
-      this.items[i].rendered || this.items[i].renderTo(this.el);
+      this.items[i].rendered || this.items[i].renderTo(this.containerEl);
     }
   };
 })(Kjs.Container.prototype);
+
+Kjs.ComponentManager.register('container', Kjs.Container);
 'use strict';
 
 Kjs.Element = function (el, config) {
@@ -258,7 +273,7 @@ Kjs.queryAll = function (query) {
 "use strict";
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["<div class=\"testingContainer\"></div>"]);
+  var data = _taggedTemplateLiteralLoose(["\n        <div>\n            <div class=\"", "-content\"></div>\n        </div>\n    "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -267,18 +282,33 @@ function _templateObject() {
   return data;
 }
 
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteralLoose(strings, raw) { if (!raw) { raw = strings.slice(0); } strings.raw = raw; return strings; }
 
-Kjs.namespace("layout").Fit = function (_config) {
+Kjs.Button = function (_config) {
+  Kjs.Component.call(this, _config);
+};
+
+(function (extend) {
+  var baseClass = 'kjs-button';
+  Kjs.extend(extend, Kjs.Component.prototype);
+  extend.classList = extend.classList.concat([baseClass]);
+  extend.template = html(_templateObject(), baseClass);
+})(Kjs.Button.prototype);
+
+Kjs.ComponentManager.register('button', Kjs.Button);
+"use strict";
+
+Kjs.namespace("layout");
+
+Kjs.layout.Fit = function (_config) {
   Kjs.Container.call(this, _config);
-  console.log(_config);
 };
 
 (function (extend) {
   Kjs.extend(extend, Kjs.Container.prototype);
   extend.classList = extend.classList.concat(['kjs-fit-container']);
-  extend.template = Kjs.html(_templateObject());
-})(Kjs.namespace("layout").Fit.prototype);
+  extend.template = "<div></div>";
+})(Kjs.layout.Fit.prototype);
 
-Kjs.ComponentManager.register('fit', Kjs.namespace("layout").Fit);
+Kjs.ComponentManager.register('fit', Kjs.layout.Fit);
 //# sourceMappingURL=k.js.map

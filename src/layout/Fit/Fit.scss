@@ -1,3 +1,10 @@
 .kjs-fit-container {
     background: red;
+    display: block;
+    position: relative;
+}
+
+.kjs-fit-container > * {
+    height: 100%;
+    width: 100%;
 }

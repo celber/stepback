@@ -22,6 +22,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.4.4",
+    "@babel/plugin-transform-template-literals": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "babel": "^6.23.0",
     "docsify-themeable": "^0.7.2",
