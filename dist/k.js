@@ -272,18 +272,6 @@ Kjs.queryAll = function (query) {
 };
 "use strict";
 
-function _templateObject() {
-  var data = _taggedTemplateLiteralLoose(["\n        <div>\n            <div class=\"", "-content\"></div>\n        </div>\n    "]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteralLoose(strings, raw) { if (!raw) { raw = strings.slice(0); } strings.raw = raw; return strings; }
-
 Kjs.Button = function (_config) {
   Kjs.Component.call(this, _config);
 };
@@ -292,7 +280,7 @@ Kjs.Button = function (_config) {
   var baseClass = 'kjs-button';
   Kjs.extend(extend, Kjs.Component.prototype);
   extend.classList = extend.classList.concat([baseClass]);
-  extend.template = html(_templateObject(), baseClass);
+  extend.template = "\n        <div>\n            <div class=\"" + baseClass + "-content\"></div>\n        </div>\n    ";
 })(Kjs.Button.prototype);
 
 Kjs.ComponentManager.register('button', Kjs.Button);
