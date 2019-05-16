@@ -28,7 +28,7 @@ Kjs.Component.getId = function () {
         this.el = this.el || Kjs.Element.render(this.template);
         this.el.setAttribute('id', this.id);
         if (this.classList.length) {
-            this.el.addClass(this.classList);
+            this.el.addClass.apply(this.el, this.classList);
         }
         this.parent = target;
         target.append(this.el);

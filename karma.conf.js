@@ -38,7 +38,7 @@ module.exports = function(config) {
         'src/ComponentManager.js',
         'src/Component.js',
         'src/Container.js',
-        'src/layout/*.js',
+        'src/layout/fit/*.js',
         'test/**/*.spec.js'
       ]
     });

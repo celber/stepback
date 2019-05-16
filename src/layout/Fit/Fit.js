@@ -1,4 +1,5 @@
-Kjs.namespace("layout").Fit = function (_config) {
+Kjs.namespace("layout");
+Kjs.layout.Fit = function (_config) {
     Kjs.Container.call(this, _config);
 
     console.log(_config);
@@ -9,6 +10,6 @@ Kjs.namespace("layout").Fit = function (_config) {
     extend.classList = extend.classList.concat(['kjs-fit-container']);
     
     extend.template = Kjs.html`<div class="testingContainer"></div>`;
-})(Kjs.namespace("layout").Fit.prototype);
+})(Kjs.layout.Fit.prototype);
 
-Kjs.ComponentManager.register('fit', Kjs.namespace("layout").Fit);
+Kjs.ComponentManager.register('fit', Kjs.layout.Fit);

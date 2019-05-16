@@ -56,7 +56,7 @@ Kjs.extend = function (target, source) {
 };
 
 Kjs.html = function (strings) {
-  return strings;
+  return strings.raw.join();
 };
 "use strict";
 
@@ -118,7 +118,7 @@ Kjs.Component.getId = function () {
     this.el.setAttribute('id', this.id);
 
     if (this.classList.length) {
-      this.el.addClass(this.classList);
+      this.el.addClass.apply(this.el, this.classList);
     }
 
     this.parent = target;
@@ -269,7 +269,9 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-Kjs.namespace("layout").Fit = function (_config) {
+Kjs.namespace("layout");
+
+Kjs.layout.Fit = function (_config) {
   Kjs.Container.call(this, _config);
   console.log(_config);
 };
@@ -278,7 +280,7 @@ Kjs.namespace("layout").Fit = function (_config) {
   Kjs.extend(extend, Kjs.Container.prototype);
   extend.classList = extend.classList.concat(['kjs-fit-container']);
   extend.template = Kjs.html(_templateObject());
-})(Kjs.namespace("layout").Fit.prototype);
+})(Kjs.layout.Fit.prototype);
 
-Kjs.ComponentManager.register('fit', Kjs.namespace("layout").Fit);
+Kjs.ComponentManager.register('fit', Kjs.layout.Fit);
 //# sourceMappingURL=k.js.map
