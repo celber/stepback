@@ -54,13 +54,3 @@ Kjs.extend = function (target, source) {
         }
     }
 };
-
-Kjs.html = function () {
-    var output = "";
-    var strings = arguments[0];
-    var values = Array.prototype.slice.call(arguments, 1);
-    strings.forEach((string, i) => {
-        output += string + values[i];
-    });
-    return output;
-};
