@@ -3,29 +3,23 @@ Kjs.namespace("zendesk");
 Kjs.zendesk.Button = function (config) {
     Kjs.Component.call(this, config);
 
-    if (config.text)
+    this.templateData['text'] = config.text;
 };
 
 (function (self) {
-    Kjs.extend(extend, Kjs.Component.prototype);
+    Kjs.extend(self, Kjs.Component.prototype);
 
     self.baseClass = 'kjs-zen-button';
     self.text = null;
 
 
-    self.classList = self.classList.concat([baseClass]);
+    self.classList = self.classList.concat([self.baseClass]);
     
-    self.template = `
-        <div class="${self.baseClass}-content c-btn">
-            
-        </div>
-    `;
+    self.template = `<div class="c-btn">{text}</div>`;
 
-    self.renderTo = function () {
+    self.renderTo = function (target) {
         Kjs.Component.prototype.renderTo.call(this, target);
-
-        
-    }
+    };
 })(Kjs.zendesk.Button.prototype);
 
 Kjs.ComponentManager.register('zen:button', Kjs.zendesk.Button);

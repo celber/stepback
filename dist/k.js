@@ -56,14 +56,12 @@ Kjs.extend = function (target, source) {
   }
 };
 
-Kjs.html = function () {
-  var output = "";
-  var strings = arguments[0];
-  var values = Array.prototype.slice.call(arguments, 1);
-  strings.forEach(function (string, i) {
-    output += string + values[i];
-  });
-  return output;
+Kjs.formatString = function (string, data) {
+  for (var key in data) {
+    string = string.replace("{" + key + "}", data[key]);
+  }
+
+  return string;
 };
 "use strict";
 
@@ -117,11 +115,13 @@ Kjs.Component.getId = function () {
   self.el;
   self.rendered = false;
   self.parent;
-  self.classList = [];
+  self.baseClass = 'kjs-component';
+  self.classList = [self.baseClass];
   self.template = '<div></div>';
+  self.templateData = {};
 
   self.renderTo = function (target) {
-    this.el = this.el || Kjs.Element.render(this.template);
+    this.el = this.el || Kjs.Element.render(Kjs.formatString(this.template, this.templateData));
     this.el.setAttribute('id', this.id);
 
     if (this.classList.length) {
@@ -272,20 +272,6 @@ Kjs.queryAll = function (query) {
 };
 "use strict";
 
-Kjs.Button = function (_config) {
-  Kjs.Component.call(this, _config);
-};
-
-(function (extend) {
-  var baseClass = 'kjs-button';
-  Kjs.extend(extend, Kjs.Component.prototype);
-  extend.classList = extend.classList.concat([baseClass]);
-  extend.template = "\n        <div>\n            <div class=\"" + baseClass + "-content\"></div>\n        </div>\n    ";
-})(Kjs.Button.prototype);
-
-Kjs.ComponentManager.register('button', Kjs.Button);
-"use strict";
-
 Kjs.namespace("layout");
 
 Kjs.layout.Fit = function (_config) {
@@ -299,4 +285,26 @@ Kjs.layout.Fit = function (_config) {
 })(Kjs.layout.Fit.prototype);
 
 Kjs.ComponentManager.register('fit', Kjs.layout.Fit);
+"use strict";
+
+Kjs.namespace("zendesk");
+
+Kjs.zendesk.Button = function (config) {
+  Kjs.Component.call(this, config);
+  this.templateData['text'] = config.text;
+};
+
+(function (self) {
+  Kjs.extend(self, Kjs.Component.prototype);
+  self.baseClass = 'kjs-zen-button';
+  self.text = null;
+  self.classList = self.classList.concat([self.baseClass]);
+  self.template = "<div class=\"c-btn\">{text}</div>";
+
+  self.renderTo = function (target) {
+    Kjs.Component.prototype.renderTo.call(this, target);
+  };
+})(Kjs.zendesk.Button.prototype);
+
+Kjs.ComponentManager.register('zen:button', Kjs.zendesk.Button);
 //# sourceMappingURL=k.js.map

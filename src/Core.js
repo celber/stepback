@@ -54,3 +54,11 @@ Kjs.extend = function (target, source) {
         }
     }
 };
+
+Kjs.formatString = function (string, data) {
+    for (var key in data) {
+        string = string.replace("{" + key + "}", data[key])
+    }
+
+    return string;
+};

@@ -20,12 +20,14 @@ Kjs.Component.getId = function () {
     self.el;
     self.rendered = false;
     self.parent;
-    self.classList = [];
+    self.baseClass = 'kjs-component';
+    self.classList = [self.baseClass];
 
     self.template = '<div></div>';
+    self.templateData = {};
 
     self.renderTo = function (target) {
-        this.el = this.el || Kjs.Element.render(this.template);
+        this.el = this.el || Kjs.Element.render(Kjs.formatString(this.template, this.templateData));
         this.el.setAttribute('id', this.id);
         if (this.classList.length) {
             this.el.addClass.apply(this.el, this.classList);
