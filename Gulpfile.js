@@ -7,7 +7,10 @@ var minify = require('gulp-minify');
 var serve = require('gulp-serve');
 var watch = require('gulp-watch');
 var sass = require('gulp-sass');
- 
+var postcss = require('gulp-postcss');
+var postcssCustomSelectors = require('postcss-custom-selectors');
+
+
 sass.compiler = require('node-sass');
 
 gulp.task('serve', serve('.'));
@@ -38,6 +41,12 @@ gulp.task('concatJS', _concatJS);
 
 function _buildSCSS () {
   return gulp.src('./src/**/*.scss')
+  .pipe(postcss({modules: true}))
+  .pipe(
+    postcss([
+      postcssCustomSelectors({})
+    ])
+  )
   .pipe(sourcemaps.init())
   .pipe(sass.sync().on('error', sass.logError))
   .pipe(concat('k.css'))
@@ -79,5 +88,7 @@ gulp.task('tdd', function _test(done) {
     singleRun: false
   }, done).start();
 });
+
+gulp.task('build', gulp.series('buildSCSS','buildJS'));
 
 gulp.task('default', gulp.series('buildSCSS','buildJS'));

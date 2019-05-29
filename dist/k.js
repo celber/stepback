@@ -291,6 +291,11 @@ Kjs.namespace("zendesk");
 
 Kjs.zendesk.Button = function (config) {
   Kjs.Component.call(this, config);
+
+  if (config.primary) {
+    this.classList.push("c-btn--primary");
+  }
+
   this.templateData['text'] = config.text;
 };
 
@@ -299,7 +304,7 @@ Kjs.zendesk.Button = function (config) {
   self.baseClass = 'kjs-zen-button';
   self.text = null;
   self.classList = self.classList.concat([self.baseClass]);
-  self.template = "<div class=\"c-btn\">{text}</div>";
+  self.template = '<div class="c-btn">{text}</div>';
 
   self.renderTo = function (target) {
     Kjs.Component.prototype.renderTo.call(this, target);

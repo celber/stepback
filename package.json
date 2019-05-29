@@ -30,6 +30,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-minify": "^3.1.0",
+    "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
     "gulp-serve": "^1.4.0",
     "gulp-sourcemaps": "^2.6.5",
@@ -43,6 +44,13 @@
     "karma-jasmine": "^2.0.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "node-sass": "^4.12.0",
+    "postcss-custom-selectors": "^5.1.2",
+    "postcss-import": "^12.0.1",
+    "postcss-scss": "^2.0.0",
     "puppeteer": "^1.15.0"
+  },
+  "dependencies": {
+    "@zendeskgarden/css-buttons": "^7.0.8",
+    "@zendeskgarden/css-utilities": "^4.3.3"
   }
 }
