@@ -111,16 +111,18 @@ Kjs.Component.getId = function () {
 };
 
 (function (self) {
+  var baseClass = 'kjs-component';
   self.id;
   self.el;
   self.rendered = false;
   self.parent;
-  self.baseClass = 'kjs-component';
-  self.classList = [self.baseClass];
+  self.baseClass = baseClass;
+  self.classList = [baseClass];
   self.template = '<div></div>';
   self.templateData = {};
 
   self.renderTo = function (target) {
+    this.beforeRender(target);
     this.el = this.el || Kjs.Element.render(Kjs.formatString(this.template, this.templateData));
     this.el.setAttribute('id', this.id);
 
@@ -131,6 +133,7 @@ Kjs.Component.getId = function () {
     this.parent = target;
     target.append(this.el);
     this.rendered = true;
+    this.afterRender(target);
     return this;
   };
 
@@ -144,7 +147,12 @@ Kjs.Component.getId = function () {
     this.classList = this.classList.filter(function (value) {
       return value !== cls;
     });
-  };
+  }; // abstract
+
+
+  self.beforeRender = function () {};
+
+  self.afterRender = function () {};
 })(Kjs.Component.prototype);
 
 Kjs.ComponentManager.register('component', Kjs.Component);
@@ -179,12 +187,26 @@ Kjs.Container = function (config) {
   };
 
   self.renderTo = function (target) {
+    var suspendItemRender = false;
     Kjs.Component.prototype.renderTo.call(this, target);
     this.containerEl = this.getContainerEl();
 
     for (var i in this.items) {
-      this.items[i].rendered || this.items[i].renderTo(this.containerEl);
+      suspendItemRender = !!this.beforeItemRender(this.items[i], i, this.containerEl);
+      suspendItemRender || this.renderItem(this.items[i], this.containerEl);
+      suspendItemRender || this.afterItemRender(this.items[i], i, this.containerEl);
     }
+  };
+
+  self.renderItem = function (item, containerEl) {
+    item.rendered || item.renderTo(containerEl);
+    return item;
+  };
+
+  self.beforeItemRender = function (item, itemIdx, containerEl) {// abstract
+  };
+
+  self.afterItemRender = function (item, itemIdx, containerEl) {// abstract
   };
 })(Kjs.Container.prototype);
 

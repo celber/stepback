@@ -28,16 +28,30 @@ Kjs.Container = function (config) {
     };
 
     self.renderTo = function(target) {
+        var suspendItemRender = false;
         Kjs.Component.prototype.renderTo.call(this, target);
 
         this.containerEl = this.getContainerEl();
 
         for (var i in this.items) {
-            this.items[i].rendered || this.items[i].renderTo(this.containerEl);
+            suspendItemRender = !!this.beforeItemRender(this.items[i], i, this.containerEl);
+            suspendItemRender || this.renderItem(this.items[i], this.containerEl);
+            suspendItemRender || this.afterItemRender(this.items[i], i, this.containerEl);
         }
     };
 
+    self.renderItem = function (item, containerEl) {
+        item.rendered || item.renderTo(containerEl);
+        return item;
+    }
 
+    self.beforeItemRender = function (item, itemIdx, containerEl) {
+        // abstract
+    };
+
+    self.afterItemRender = function (item, itemIdx, containerEl) {
+        // abstract
+    };
 }(Kjs.Container.prototype));
 
 Kjs.ComponentManager.register('container', Kjs.Container);

@@ -16,17 +16,19 @@ Kjs.Component.getId = function () {
 }; 
 
 (function (self) {
+    var baseClass = 'kjs-component';
     self.id;
     self.el;
     self.rendered = false;
     self.parent;
-    self.baseClass = 'kjs-component';
-    self.classList = [self.baseClass];
+    self.baseClass = baseClass;
+    self.classList = [baseClass];
 
     self.template = '<div></div>';
     self.templateData = {};
 
     self.renderTo = function (target) {
+        this.beforeRender(target);
         this.el = this.el || Kjs.Element.render(Kjs.formatString(this.template, this.templateData));
         this.el.setAttribute('id', this.id);
         if (this.classList.length) {
@@ -35,6 +37,7 @@ Kjs.Component.getId = function () {
         this.parent = target;
         target.append(this.el);
         this.rendered = true;
+        this.afterRender(target);
         return this;
     };
 
@@ -49,6 +52,11 @@ Kjs.Component.getId = function () {
             return value !== cls;
         });
     };
+
+    // abstract
+    self.beforeRender = function () {};
+    self.afterRender = function () {};
+
 } (Kjs.Component.prototype));
 
 Kjs.ComponentManager.register('component', Kjs.Component);
