@@ -16,7 +16,6 @@ Kjs.zendesk.Button = function (config) {
     self.baseClass = 'kjs-zen-button';
     self.text = null;
 
-
     self.classList = self.classList.concat([self.baseClass]);
     
     self.template = '<div class="c-btn">{text}</div>';

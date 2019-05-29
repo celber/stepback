@@ -2,6 +2,7 @@
     <head>
         <script type="application/javascript" src="../dist/k.js"></script>
         <link rel="stylesheet" href="../dist/k.css"/>
+        <script type="application/javascript" src="https://unpkg.com/codeflask/build/codeflask.min.js"></script>
         <style>
             #app {
                 height: 40px;
@@ -22,23 +23,30 @@
         </style>
     </head>
     <body>
-        <div id="app">
+        <div id="editor-pane">
 
         </div>
+        <iframe id="result-pane"></iframe>
     </body>
     <script>
-        var viewport = new Kjs.layout.Fit({
-            items: [{
-                componentType: 'container',
-                classList: ['green-bg'],
-                items: [{
-                    componentType: "zen:button",
-                    primary: true,
-                    text: "Click Me!"
-                }]
-            }]
-        });
+        var flask = new CodeFlask('#editor-pane', { language: 'js' });
 
-        viewport.renderTo(Kjs.queryOne("#app"));
+        flask.updateCode(
+            "var viewport = new Kjs.layout.Fit({ \r\n"+
+            "   items: [{ \r\n"+
+            "        componentType: 'container',\r\n"+
+            "        classList: ['green-bg'],\r\n"+
+            "        items: [{\r\n"+
+            "            componentType: \"zen:button\",\r\n"+
+            "            primary: true,\r\n"+
+            "            text: \"Click Me!\"\r\n"+
+            "        }]\r\n"+
+            "    }]\r\n"+
+            "});\r\n"
+        );
+
+
+
+        // viewport.renderTo(Kjs.queryOne("#app"));
     </script>
 </html>
