@@ -1,35 +1,46 @@
 <html>
     <head>
-        <script type="application/javascript" src="../dist/k.js"></script>
-        <link rel="stylesheet" href="../dist/k.css"/>
         <script type="application/javascript" src="https://unpkg.com/codeflask/build/codeflask.min.js"></script>
         <style>
-            #app {
-                height: 40px;
-                width: 500px;
+            body {
+                margin: 0;
+                display: flex;
+                align-items: stretch;
             }
-
-            .green-bg {
-                background-color: #00ff0022;
-                /* width: 100px;
-                height: 100px; */
-            }
-
-            .kjs-fit-container {
-                background-color: #ff000022;
-                display: block;
+            .editor-wrapper {
                 position: relative;
+                flex: 1;
+                min-height: 100%;
+            }
+            #resultPanel {
+                border: none;
+                flex: 2;
+                background-color: #fafafa;
+                min-height: 100%;
+            }
+            #runBtn {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                z-index: 999;
             }
         </style>
     </head>
     <body>
-        <div id="editor-pane">
+        <div class='editor-wrapper'>
+                <div id="editorPanel">
 
+                </div>
+                <button id="runBtn">Run</button>
         </div>
-        <iframe id="result-pane"></iframe>
+
+        <iframe id="resultPanel">
+            
+        </iframe>
+
     </body>
     <script>
-        var flask = new CodeFlask('#editor-pane', { language: 'js' });
+        var flask = new CodeFlask('#editorPanel', { language: 'js', lineNumbers: true });
 
         flask.updateCode(
             "var viewport = new Kjs.layout.Fit({ \r\n"+
@@ -42,11 +53,44 @@
             "            text: \"Click Me!\"\r\n"+
             "        }]\r\n"+
             "    }]\r\n"+
-            "});\r\n"
+            "});\r\n\r\n"+
+            "viewport.renderTo(Kjs.queryOne(\"#app\"));"
         );
 
-
-
-        // viewport.renderTo(Kjs.queryOne("#app"));
+        document.getElementById('runBtn').onclick = function () {
+            var code = flask.getCode();
+            var frameDoc = document.getElementById('resultPanel').contentWindow.document;
+            frameDoc.open();
+            frameDoc.write(
+            "    <head>"+
+            "        <script type=\"application/javascript\" src=\"../dist/k.js\"> <\/script>"+
+            "        <link rel=\"stylesheet\" href=\"../dist/k.css\"/>"+
+            "        <style>"+
+            "                    #app {"+
+            "                        height: 40px;"+
+            "                        width: 500px;"+
+            "                    }"+
+            "                    body {"+
+            "                        background-color: #fafafa;"+
+            "                    }"+
+            ""+
+            "                    .green-bg {"+
+            "                        background-color: #00ff0022;"+
+            "                    }"+
+            ""+
+            "                    .kjs-fit-container {"+
+            "                        background-color: #ff000022;"+
+            "                    }"+
+            "        <\/style>"+
+            "<\/head>"+
+            "<body>"+
+            "    <div id=\"app\"><\/div>"+
+            "<\/body>"+
+            "<script type=\"application/javascript\">"+
+            code +
+            "<\/script>"
+            );
+            frameDoc.close();
+        }
     </script>
 </html>
