@@ -33,7 +33,7 @@ Kjs.Container = function (config) {
 
         this.containerEl = this.getContainerEl();
 
-        for (var i in this.items) {
+        for (var i = 0; i < this.items.length; ++i) {
             suspendItemRender = !!this.beforeItemRender(this.items[i], i, this.containerEl);
             suspendItemRender || this.renderItem(this.items[i], this.containerEl);
             suspendItemRender || this.afterItemRender(this.items[i], i, this.containerEl);

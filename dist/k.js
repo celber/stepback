@@ -191,7 +191,7 @@ Kjs.Container = function (config) {
     Kjs.Component.prototype.renderTo.call(this, target);
     this.containerEl = this.getContainerEl();
 
-    for (var i in this.items) {
+    for (var i = 0; i < this.items.length; ++i) {
       suspendItemRender = !!this.beforeItemRender(this.items[i], i, this.containerEl);
       suspendItemRender || this.renderItem(this.items[i], this.containerEl);
       suspendItemRender || this.afterItemRender(this.items[i], i, this.containerEl);
@@ -302,11 +302,42 @@ Kjs.layout.Fit = function (_config) {
 
 (function (extend) {
   Kjs.extend(extend, Kjs.Container.prototype);
-  extend.classList = extend.classList.concat(['kjs-fit-container']);
+  extend.classList = extend.classList.concat(['kjs-fit-layout']);
   extend.template = "<div></div>";
 })(Kjs.layout.Fit.prototype);
 
 Kjs.ComponentManager.register('fit', Kjs.layout.Fit);
+"use strict";
+
+Kjs.namespace("layout");
+
+Kjs.layout.VSplit = function (_config) {
+  Kjs.Container.call(this, _config);
+};
+
+(function (self) {
+  var baseClass = 'kjs-vsplit-container';
+  Kjs.extend(self, Kjs.Container.prototype);
+  self.classList = self.classList.concat([baseClass]);
+  self.template = "<div></div>";
+
+  self.renderTo = function (target) {
+    Kjs.Container.prototype.renderTo.call(this, target);
+  };
+
+  self.afterItemRender = function (item, itemIdx, containerEl) {
+    // ignore last element so gutter is not added at the end
+    if (itemIdx !== this.items.length - 1) {
+      containerEl.append(self.createSplitBorder());
+    }
+  };
+
+  self.createSplitBorder = function () {
+    return Kjs.Element.render('<div class="' + baseClass + '-gutter">&nbsp;</div>');
+  };
+})(Kjs.layout.VSplit.prototype);
+
+Kjs.ComponentManager.register('vsplit', Kjs.layout.VSplit);
 "use strict";
 
 Kjs.namespace("zendesk");

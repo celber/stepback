@@ -40,6 +40,7 @@ module.exports = function(config) {
         'src/Container.js',
         'src/Button/Button.js',
         'src/layout/fit/*.js',
+        'src/layout/VSplit/*.js',
         'test/**/*.spec.js'
       ]
     });

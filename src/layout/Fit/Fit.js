@@ -5,7 +5,7 @@ Kjs.layout.Fit = function (_config) {
 
 (function (extend) {
     Kjs.extend(extend, Kjs.Container.prototype);
-    extend.classList = extend.classList.concat(['kjs-fit-container']);
+    extend.classList = extend.classList.concat(['kjs-fit-layout']);
     
     extend.template = `<div></div>`;
 })(Kjs.layout.Fit.prototype);

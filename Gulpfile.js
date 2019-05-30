@@ -15,18 +15,21 @@ sass.compiler = require('node-sass');
 
 gulp.task('serve', serve('.'));
 
+var fileList = [
+  './src/Core.js',
+  './src/ComponentManager.js',
+  './src/Component.js',
+  './src/Container.js',
+  './src/DOM/*.js',
+  './src/layout/Fit/*.js',
+  './src/layout/VSplit/Vsplit.js',
+  './src/zendesk/button/Button.js'
+];
+
 
 function _concatJS () {
   return gulp
-    .src([
-      './src/Core.js',
-      './src/ComponentManager.js',
-      './src/Component.js',
-      './src/Container.js',
-      './src/DOM/*.js',
-      './src/layout/Fit/*.js',
-      './src/zendesk/button/Button.js'
-    ])
+    .src(fileList)
     .pipe(sourcemaps.init())
     .pipe(babel({
         presets: ['@babel/env']
@@ -89,6 +92,15 @@ gulp.task('tdd', function _test(done) {
   }, done).start();
 });
 
+
 gulp.task('build', gulp.series('buildSCSS','buildJS'));
 
 gulp.task('default', gulp.series('buildSCSS','buildJS'));
+
+gulp.task('watch', function (done) {
+  watch(fileList, function(cb) {
+    console.log("Changes detected!");
+    gulp.series('buildSCSS','buildJS')(cb);
+    //cb();
+  });
+});
