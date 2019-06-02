@@ -1,8 +1,8 @@
 'use strict';
 
-var Kjs = {};
+var Sb = {};
 
-Kjs.config = {
+Sb.config = {
     fx: {
         animations: true,
         duration: 1
@@ -12,7 +12,7 @@ Kjs.config = {
     }
 };
 
-Kjs.namespace = function (namespace) {
+Sb.namespace = function (namespace) {
     var ns = namespace.split('.'), 
         branch = this,
         i;
@@ -28,7 +28,7 @@ Kjs.namespace = function (namespace) {
     return branch;
 };
 
-Kjs.clone = function (source) {
+Sb.clone = function (source) {
     var target = Object();
 
     for (var nextKey in source) {
@@ -41,7 +41,7 @@ Kjs.clone = function (source) {
     return target;
 };
 
-Kjs.extend = function (target, source) {
+Sb.extend = function (target, source) {
     for (var key in source) {
         if (source[key] instanceof Array) {
             (target[key] === undefined) && (target[key] = []);
@@ -55,7 +55,7 @@ Kjs.extend = function (target, source) {
     }
 };
 
-Kjs.formatString = function (string, data) {
+Sb.formatString = function (string, data) {
     for (var key in data) {
         string = string.replace("{" + key + "}", data[key])
     }

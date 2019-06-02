@@ -1,17 +1,17 @@
-Kjs.namespace("layout");
-Kjs.layout.VSplit = function (_config) {
-    Kjs.Container.call(this, _config);
+Sb.namespace("layout");
+Sb.layout.VSplit = function (_config) {
+    Sb.Container.call(this, _config);
 };
 
 (function (self) {
-    var baseClass = 'kjs-vsplit-layout';
-    Kjs.extend(self, Kjs.Container.prototype);
+    var baseClass = 'sb-vsplit-layout';
+    Sb.extend(self, Sb.Container.prototype);
     self.classList = self.classList.concat([baseClass]);
     
     self.template = `<div></div>`;
 
     self.renderTo = function (target) {
-        Kjs.Container.prototype.renderTo.call(this, target);
+        Sb.Container.prototype.renderTo.call(this, target);
     };
 
     self.afterItemRender = function (item, itemIdx, containerEl) {
@@ -23,11 +23,15 @@ Kjs.layout.VSplit = function (_config) {
         if (itemIdx !==  ( this.items.length - 1 )) {
             containerEl.append(self.createSplitBorder());
         }
-    }
+    };
+
+    self.afterRender = function (target) {
+        console.log(target);
+    };
 
     self.createSplitBorder = function () {
-        return Kjs.Element.render('<div class="'+baseClass+'-gutter">&nbsp;</div>');
+        return Sb.Element.render('<div class="'+baseClass+'-gutter">&nbsp;</div>');
     }
-})(Kjs.layout.VSplit.prototype);
+})(Sb.layout.VSplit.prototype);
 
-Kjs.ComponentManager.register('vsplit', Kjs.layout.VSplit);
+Sb.ComponentManager.register('vsplit', Sb.layout.VSplit);

@@ -8,7 +8,7 @@ describe('Core', function() {
             }
         };
 
-        Kjs.extend(a, {
+        Sb.extend(a, {
             bar: {
                 taz: 99
             }
@@ -23,8 +23,8 @@ describe('Core', function() {
     it('creates namespace', function () {
         (function (self){
             self.a = 2;
-        })(Kjs.namespace('test.namespace'));
-        expect(Kjs.test.namespace).toEqual({a:2});
+        })(Sb.namespace('test.namespace'));
+        expect(Sb.test.namespace).toEqual({a:2});
     });
 
     it('clones objects', function() {
@@ -33,7 +33,7 @@ describe('Core', function() {
             foo: 'bar'
         };
 
-        b = Kjs.clone(a);
+        b = Sb.clone(a);
         b.foo = 'baz';
 
         expect(a.foo).toBe('bar');

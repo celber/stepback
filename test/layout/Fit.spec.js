@@ -1,6 +1,6 @@
 describe('Fit layout', function () {
     it('does not render immediately', function () {
-        const container = new Kjs.layout.Fit({
+        const container = new Sb.layout.Fit({
             id: 'fit0',
             items: [{
                 componentType: 'component',
@@ -12,7 +12,7 @@ describe('Fit layout', function () {
     });
 
     it('renders', function () {
-        const container = new Kjs.layout.Fit({
+        const container = new Sb.layout.Fit({
             id: 'fit1',
             items: [{
                 componentType: 'component',
@@ -20,7 +20,7 @@ describe('Fit layout', function () {
             }]
         });
 
-        container.renderTo(new Kjs.Element(document.body));
+        container.renderTo(new Sb.Element(document.body));
 
         expect(container.el.nativeElement).toBeDefined();
     });

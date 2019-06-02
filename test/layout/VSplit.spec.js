@@ -1,7 +1,7 @@
 describe('VSplit layout', function () {
     
     it('renders', function () {
-        const container = new Kjs.layout.VSplit({
+        const container = new Sb.layout.VSplit({
             id: 'vsplit0',
             items: [{
                 componentType: 'component',
@@ -15,11 +15,11 @@ describe('VSplit layout', function () {
             }]
         });
 
-        container.renderTo(new Kjs.Element(document.body));
+        container.renderTo(new Sb.Element(document.body));
 
         expect(container.el.nativeElement).toBeDefined();
 
-        expect(container.el.nativeElement.querySelectorAll('.kjs-vsplit-layout-gutter').length).toBe(2);
-        expect(container.el.nativeElement.querySelectorAll('.kjs-vsplit-layout-child').length).toBe(3);
+        expect(container.el.nativeElement.querySelectorAll('.sb-vsplit-layout-gutter').length).toBe(2);
+        expect(container.el.nativeElement.querySelectorAll('.sb-vsplit-layout-child').length).toBe(3);
     });
 });

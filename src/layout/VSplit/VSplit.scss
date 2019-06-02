@@ -1,0 +1,21 @@
+.sb-vsplit-layout {
+    position: relative;
+}
+
+.sb-vsplit-layout-child {
+    display: inline-block;
+    height: 100%;
+}
+
+.sb-vsplit-layout-gutter {
+    background-color: red;
+    display: inline-block;
+    height: 100%;
+    width: 8px;
+    position: absolute;
+
+
+    &:hover {
+        background-color: green;
+    }
+}

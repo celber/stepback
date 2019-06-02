@@ -1,17 +1,17 @@
 'use strict';
 
-Kjs.Element = function (el, config) {
+Sb.Element = function (el, config) {
     this.nativeElement = el;
-    Kjs.extend(this.config, config);
+    Sb.extend(this.config, config);
 }; 
 
-Kjs.Element.render = function (template) {
+Sb.Element.render = function (template) {
     var element;
     var tempEl = document.createElement('template');
     var html = template.trim(); // Never return a text node of whitespace as the result
     tempEl.innerHTML = html;
     
-    element = new Kjs.Element(document.adoptNode(tempEl.content.firstChild));
+    element = new Sb.Element(document.adoptNode(tempEl.content.firstChild));
     element.template = template;
 
     return element;
@@ -68,4 +68,4 @@ Kjs.Element.render = function (template) {
     extend.setAttribute = function (name, value) {
         this.nativeElement.setAttribute(name, value);
     }; 
-})(Kjs.Element.prototype);
+})(Sb.Element.prototype);

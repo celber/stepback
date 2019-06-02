@@ -1,4 +1,4 @@
-# Kjs
+# Sb
 
 Bazowy moduł frameworka dostarczający najbardziej podstawowe funkcje i konfiguracje.
 
@@ -10,7 +10,7 @@ Globalny obiekt przechowujący informacje współdzielone dla komponentów,
 między innymi o animacjach, kluczach API.
 
 ```js
-Kjs.config = {
+Sb.config = {
     fx: {
         animations: true, // włącza animacje w komponentach
         duration: 1 // współczynnik szybkości animacji
@@ -31,11 +31,11 @@ Tworzy i zwraca obiekt w nowej przestrzeni nazw. Jeżeli całość lub część 
 nie zostanie nadpisana.
 
 ```js
-Kjs.namespace("ui.chart").Bar = function(config) {
+Sb.namespace("ui.chart").Bar = function(config) {
     // konstruktor
 };
 
-var chart = new Kjs.ui.chart.Bar({data: [1,2,3]});
+var chart = new Sb.ui.chart.Bar({data: [1,2,3]});
 ```
 
 ### clone
@@ -47,7 +47,7 @@ Klonuje obiekt
 
 ```js
 var a = {foo: 1};
-var b = Kjs.clone(a);
+var b = Sb.clone(a);
 b.foo = 2;
 
 // a.foo == 1
@@ -82,7 +82,7 @@ var b = {
     abc: "new property"
 };
 
-Kjs.extend(a, b);
+Sb.extend(a, b);
 
 
 // a == {

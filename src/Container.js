@@ -1,5 +1,5 @@
-Kjs.Container = function (config) {
-    Kjs.Component.call(this, config);
+Sb.Container = function (config) {
+    Sb.Component.call(this, config);
 
     for (var i in this.items) {
         this.items[i] = this.createItem(this.items[i]);
@@ -7,9 +7,9 @@ Kjs.Container = function (config) {
 };
 
 (function (self) {
-    Kjs.extend(self, Kjs.Component.prototype);
+    Sb.extend(self, Sb.Component.prototype);
 
-    self.classList = self.classList.concat(['kjs-container']);
+    self.classList = self.classList.concat(['sb-container']);
     self.layout = null;
     self.containerEl = null;
     self.items = [];
@@ -24,12 +24,12 @@ Kjs.Container = function (config) {
     };
 
     self.createItem = function (itemConfig) {
-        return Kjs.ComponentManager.create(itemConfig);
+        return Sb.ComponentManager.create(itemConfig);
     };
 
     self.renderTo = function(target) {
         var suspendItemRender = false;
-        Kjs.Component.prototype.renderTo.call(this, target);
+        Sb.Component.prototype.renderTo.call(this, target);
 
         this.containerEl = this.getContainerEl();
 
@@ -52,6 +52,6 @@ Kjs.Container = function (config) {
     self.afterItemRender = function (item, itemIdx, containerEl) {
         // abstract
     };
-}(Kjs.Container.prototype));
+}(Sb.Container.prototype));
 
-Kjs.ComponentManager.register('container', Kjs.Container);
+Sb.ComponentManager.register('container', Sb.Container);

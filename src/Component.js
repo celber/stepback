@@ -1,22 +1,22 @@
 "use strict";
-Kjs.Component = function (_config) {
+Sb.Component = function (_config) {
     var config = _config || {};
 
-    Kjs.extend(this, config);
+    Sb.extend(this, config);
 
     if (!config.id) {
-        this.id = Kjs.Component.getId();
+        this.id = Sb.Component.getId();
     }
 };
 
-Kjs.Component.NEXT_ID = 1;
+Sb.Component.NEXT_ID = 1;
 
-Kjs.Component.getId = function () {
-    return "kjs-" + Kjs.Component.NEXT_ID++;
+Sb.Component.getId = function () {
+    return "sb-" + Sb.Component.NEXT_ID++;
 }; 
 
 (function (self) {
-    var baseClass = 'kjs-component';
+    var baseClass = 'sb-component';
     self.id;
     self.el;
     self.rendered = false;
@@ -29,7 +29,7 @@ Kjs.Component.getId = function () {
 
     self.renderTo = function (target) {
         this.beforeRender(target);
-        this.el = this.el || Kjs.Element.render(Kjs.formatString(this.template, this.templateData));
+        this.el = this.el || Sb.Element.render(Sb.formatString(this.template, this.templateData));
         this.el.setAttribute('id', this.id);
         if (this.classList.length) {
             this.el.addClass.apply(this.el, this.classList);
@@ -54,9 +54,9 @@ Kjs.Component.getId = function () {
     };
 
     // abstract
-    self.beforeRender = function () {};
-    self.afterRender = function () {};
+    self.beforeRender = function (target) {};
+    self.afterRender = function (target) {};
 
-} (Kjs.Component.prototype));
+} (Sb.Component.prototype));
 
-Kjs.ComponentManager.register('component', Kjs.Component);
+Sb.ComponentManager.register('component', Sb.Component);

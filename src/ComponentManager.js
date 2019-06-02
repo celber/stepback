@@ -1,4 +1,4 @@
-Kjs.ComponentManager = function () {
+Sb.ComponentManager = function () {
 
 };
 
@@ -23,6 +23,6 @@ Kjs.ComponentManager = function () {
         var cls = self.get(config.componentType);
         return new cls(config);
     };
-}(Kjs.ComponentManager.prototype));
+}(Sb.ComponentManager.prototype));
 
-Kjs.ComponentManager = new Kjs.ComponentManager();
+Sb.ComponentManager = new Sb.ComponentManager();

@@ -1,6 +1,6 @@
 describe('Container', function () {
     it('renders items', function () {
-        var container = new Kjs.Container({
+        var container = new Sb.Container({
             template: '<div class="testingContainer"></div>',
             items: [{
                 componentType: 'component',
@@ -11,12 +11,12 @@ describe('Container', function () {
             }]
         });
 
-        container.renderTo(new Kjs.Element(document.body));
+        container.renderTo(new Sb.Element(document.body));
         expect(document.querySelector('#childComponent0')).toBeDefined();
     });
 
     it('can add items', function () {
-        var container = new Kjs.Container({
+        var container = new Sb.Container({
             template: '<div class="testingContainer2"></div>',
             items: [{
                 componentType: 'component',
@@ -28,7 +28,7 @@ describe('Container', function () {
         });
 
 
-        container.renderTo(new Kjs.Element(document.body));
+        container.renderTo(new Sb.Element(document.body));
 
         container.addItem({
             componentType: 'component',

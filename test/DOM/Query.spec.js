@@ -18,12 +18,12 @@ describe('DOM Query', function () {
     });
 
     it('finds one element', function() {
-        var foo = Kjs.queryOne('.testClass');
+        var foo = Sb.queryOne('.testClass');
         expect(foo.nativeElement.id).toBe('testId');
     });
 
     it('finds many elements', function () {
-        var foo = Kjs.queryAll('.testClass');
+        var foo = Sb.queryAll('.testClass');
         expect(foo.length).toBe(2);
     });
 });

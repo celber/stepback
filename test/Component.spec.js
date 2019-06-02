@@ -1,7 +1,7 @@
 describe('Component', function () {
     var cmp;
     beforeAll(function () {
-        cmp = new Kjs.Component({
+        cmp = new Sb.Component({
             template: '<div class="checkMe"></div>',
         });
     });
@@ -15,12 +15,12 @@ describe('Component', function () {
     });
 
     it('renders', function () {
-        var cmp = new Kjs.Component({
+        var cmp = new Sb.Component({
             id: 'testingComponent',
             template: '<div></div>',
         });
 
-        cmp.renderTo(new Kjs.Element(document.body));
+        cmp.renderTo(new Sb.Element(document.body));
         expect(document.getElementById('testingComponent')).toBeDefined();
     });
 });

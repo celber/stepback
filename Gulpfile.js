@@ -98,7 +98,7 @@ gulp.task('build', gulp.series('buildSCSS','buildJS'));
 gulp.task('default', gulp.series('buildSCSS','buildJS'));
 
 gulp.task('watch', function (done) {
-  watch(fileList, function(cb) {
+  watch(fileList.concat(['./src/**/*.scss']), function(cb) {
     console.log("Changes detected!");
     gulp.series('buildSCSS','buildJS')(cb);
     //cb();

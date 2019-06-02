@@ -1,7 +1,7 @@
-Kjs.namespace("zendesk");
+Sb.namespace("zendesk");
 
-Kjs.zendesk.Button = function (config) {
-    Kjs.Component.call(this, config);
+Sb.zendesk.Button = function (config) {
+    Sb.Component.call(this, config);
 
     if (config.primary) {
         this.classList.push("c-btn--primary");
@@ -11,9 +11,9 @@ Kjs.zendesk.Button = function (config) {
 };
 
 (function (self) {
-    Kjs.extend(self, Kjs.Component.prototype);
+    Sb.extend(self, Sb.Component.prototype);
 
-    self.baseClass = 'kjs-zen-button';
+    self.baseClass = 'sb-zen-button';
     self.text = null;
 
     self.classList = self.classList.concat([self.baseClass]);
@@ -21,8 +21,8 @@ Kjs.zendesk.Button = function (config) {
     self.template = '<div class="c-btn">{text}</div>';
 
     self.renderTo = function (target) {
-        Kjs.Component.prototype.renderTo.call(this, target);
+        Sb.Component.prototype.renderTo.call(this, target);
     };
-})(Kjs.zendesk.Button.prototype);
+})(Sb.zendesk.Button.prototype);
 
-Kjs.ComponentManager.register('zen:button', Kjs.zendesk.Button);
+Sb.ComponentManager.register('zen:button', Sb.zendesk.Button);

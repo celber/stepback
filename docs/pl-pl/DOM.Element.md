@@ -1,14 +1,14 @@
-# Kjs.Element
+# Sb.Element
 
 Wraper elementów HTML upraszczający operacje na nich.
 
 ## Szablony
 
-`Kjs.Element` posiada statyczną metode `render` która utworzy nowy `Kjs.Element` zawierający element
+`Sb.Element` posiada statyczną metode `render` która utworzy nowy `Sb.Element` zawierający element
 HTML skonstruowany z przekazanego szablonu.
 
 ```js
-var button = Kjs.Element.render("<button></button>");
+var button = Sb.Element.render("<button></button>");
 ```
 
 ## właściwości
@@ -24,8 +24,8 @@ element opakowany przez instancję.
 ### listeners: `Object`
 obiekt przechowujący wszystkie funkcje obsługujące zdarzenia.
 
-### template: `String|Kjs.Template` 
-Szablon użyty do skonstruowania elementu jeżeli został utworzony przez `Kjs.Element.render`.
+### template: `String|Sb.Template` 
+Szablon użyty do skonstruowania elementu jeżeli został utworzony przez `Sb.Element.render`.
 
 ## metody
 

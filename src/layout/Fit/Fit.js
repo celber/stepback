@@ -1,13 +1,13 @@
-Kjs.namespace("layout");
-Kjs.layout.Fit = function (_config) {
-    Kjs.Container.call(this, _config);
+Sb.namespace("layout");
+Sb.layout.Fit = function (_config) {
+    Sb.Container.call(this, _config);
 };
 
 (function (extend) {
-    Kjs.extend(extend, Kjs.Container.prototype);
-    extend.classList = extend.classList.concat(['kjs-fit-layout']);
+    Sb.extend(extend, Sb.Container.prototype);
+    extend.classList = extend.classList.concat(['sb-fit-layout']);
     
     extend.template = `<div></div>`;
-})(Kjs.layout.Fit.prototype);
+})(Sb.layout.Fit.prototype);
 
-Kjs.ComponentManager.register('fit', Kjs.layout.Fit);
+Sb.ComponentManager.register('fit', Sb.layout.Fit);

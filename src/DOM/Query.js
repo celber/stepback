@@ -1,11 +1,11 @@
-Kjs.queryOne = function (query) {
-    return new Kjs.Element(document.querySelector(query));
+Sb.queryOne = function (query) {
+    return new Sb.Element(document.querySelector(query));
 };
 
-Kjs.queryAll = function (query) {
+Sb.queryAll = function (query) {
     return Array.prototype.map.call(
         document.querySelectorAll(query),
         function (el) {
-            return new Kjs.Element(el);
+            return new Sb.Element(el);
     });
 };

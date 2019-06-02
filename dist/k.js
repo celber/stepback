@@ -2,8 +2,8 @@
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var Kjs = {};
-Kjs.config = {
+var Sb = {};
+Sb.config = {
   fx: {
     animations: true,
     duration: 1
@@ -13,7 +13,7 @@ Kjs.config = {
   }
 };
 
-Kjs.namespace = function (namespace) {
+Sb.namespace = function (namespace) {
   var ns = namespace.split('.'),
       branch = this,
       i;
@@ -29,7 +29,7 @@ Kjs.namespace = function (namespace) {
   return branch;
 };
 
-Kjs.clone = function (source) {
+Sb.clone = function (source) {
   var target = Object();
 
   for (var nextKey in source) {
@@ -42,7 +42,7 @@ Kjs.clone = function (source) {
   return target;
 };
 
-Kjs.extend = function (target, source) {
+Sb.extend = function (target, source) {
   for (var key in source) {
     if (source[key] instanceof Array) {
       target[key] === undefined && (target[key] = []);
@@ -56,7 +56,7 @@ Kjs.extend = function (target, source) {
   }
 };
 
-Kjs.formatString = function (string, data) {
+Sb.formatString = function (string, data) {
   for (var key in data) {
     string = string.replace("{" + key + "}", data[key]);
   }
@@ -65,7 +65,7 @@ Kjs.formatString = function (string, data) {
 };
 "use strict";
 
-Kjs.ComponentManager = function () {};
+Sb.ComponentManager = function () {};
 
 (function (self) {
   self.registry = {};
@@ -90,28 +90,28 @@ Kjs.ComponentManager = function () {};
     var cls = self.get(config.componentType);
     return new cls(config);
   };
-})(Kjs.ComponentManager.prototype);
+})(Sb.ComponentManager.prototype);
 
-Kjs.ComponentManager = new Kjs.ComponentManager();
+Sb.ComponentManager = new Sb.ComponentManager();
 "use strict";
 
-Kjs.Component = function (_config) {
+Sb.Component = function (_config) {
   var config = _config || {};
-  Kjs.extend(this, config);
+  Sb.extend(this, config);
 
   if (!config.id) {
-    this.id = Kjs.Component.getId();
+    this.id = Sb.Component.getId();
   }
 };
 
-Kjs.Component.NEXT_ID = 1;
+Sb.Component.NEXT_ID = 1;
 
-Kjs.Component.getId = function () {
-  return "kjs-" + Kjs.Component.NEXT_ID++;
+Sb.Component.getId = function () {
+  return "sb-" + Sb.Component.NEXT_ID++;
 };
 
 (function (self) {
-  var baseClass = 'kjs-component';
+  var baseClass = 'sb-component';
   self.id;
   self.el;
   self.rendered = false;
@@ -123,7 +123,7 @@ Kjs.Component.getId = function () {
 
   self.renderTo = function (target) {
     this.beforeRender(target);
-    this.el = this.el || Kjs.Element.render(Kjs.formatString(this.template, this.templateData));
+    this.el = this.el || Sb.Element.render(Sb.formatString(this.template, this.templateData));
     this.el.setAttribute('id', this.id);
 
     if (this.classList.length) {
@@ -153,13 +153,13 @@ Kjs.Component.getId = function () {
   self.beforeRender = function () {};
 
   self.afterRender = function () {};
-})(Kjs.Component.prototype);
+})(Sb.Component.prototype);
 
-Kjs.ComponentManager.register('component', Kjs.Component);
+Sb.ComponentManager.register('component', Sb.Component);
 "use strict";
 
-Kjs.Container = function (config) {
-  Kjs.Component.call(this, config);
+Sb.Container = function (config) {
+  Sb.Component.call(this, config);
 
   for (var i in this.items) {
     this.items[i] = this.createItem(this.items[i]);
@@ -167,8 +167,8 @@ Kjs.Container = function (config) {
 };
 
 (function (self) {
-  Kjs.extend(self, Kjs.Component.prototype);
-  self.classList = self.classList.concat(['kjs-container']);
+  Sb.extend(self, Sb.Component.prototype);
+  self.classList = self.classList.concat(['sb-container']);
   self.layout = null;
   self.containerEl = null;
   self.items = [];
@@ -183,12 +183,12 @@ Kjs.Container = function (config) {
   };
 
   self.createItem = function (itemConfig) {
-    return Kjs.ComponentManager.create(itemConfig);
+    return Sb.ComponentManager.create(itemConfig);
   };
 
   self.renderTo = function (target) {
     var suspendItemRender = false;
-    Kjs.Component.prototype.renderTo.call(this, target);
+    Sb.Component.prototype.renderTo.call(this, target);
     this.containerEl = this.getContainerEl();
 
     for (var i = 0; i < this.items.length; ++i) {
@@ -208,23 +208,23 @@ Kjs.Container = function (config) {
 
   self.afterItemRender = function (item, itemIdx, containerEl) {// abstract
   };
-})(Kjs.Container.prototype);
+})(Sb.Container.prototype);
 
-Kjs.ComponentManager.register('container', Kjs.Container);
+Sb.ComponentManager.register('container', Sb.Container);
 'use strict';
 
-Kjs.Element = function (el, config) {
+Sb.Element = function (el, config) {
   this.nativeElement = el;
-  Kjs.extend(this.config, config);
+  Sb.extend(this.config, config);
 };
 
-Kjs.Element.render = function (template) {
+Sb.Element.render = function (template) {
   var element;
   var tempEl = document.createElement('template');
   var html = template.trim(); // Never return a text node of whitespace as the result
 
   tempEl.innerHTML = html;
-  element = new Kjs.Element(document.adoptNode(tempEl.content.firstChild));
+  element = new Sb.Element(document.adoptNode(tempEl.content.firstChild));
   element.template = template;
   return element;
 };
@@ -280,70 +280,76 @@ Kjs.Element.render = function (template) {
   extend.setAttribute = function (name, value) {
     this.nativeElement.setAttribute(name, value);
   };
-})(Kjs.Element.prototype);
+})(Sb.Element.prototype);
 "use strict";
 
-Kjs.queryOne = function (query) {
-  return new Kjs.Element(document.querySelector(query));
+Sb.queryOne = function (query) {
+  return new Sb.Element(document.querySelector(query));
 };
 
-Kjs.queryAll = function (query) {
+Sb.queryAll = function (query) {
   return Array.prototype.map.call(document.querySelectorAll(query), function (el) {
-    return new Kjs.Element(el);
+    return new Sb.Element(el);
   });
 };
 "use strict";
 
-Kjs.namespace("layout");
+Sb.namespace("layout");
 
-Kjs.layout.Fit = function (_config) {
-  Kjs.Container.call(this, _config);
+Sb.layout.Fit = function (_config) {
+  Sb.Container.call(this, _config);
 };
 
 (function (extend) {
-  Kjs.extend(extend, Kjs.Container.prototype);
-  extend.classList = extend.classList.concat(['kjs-fit-layout']);
+  Sb.extend(extend, Sb.Container.prototype);
+  extend.classList = extend.classList.concat(['sb-fit-layout']);
   extend.template = "<div></div>";
-})(Kjs.layout.Fit.prototype);
+})(Sb.layout.Fit.prototype);
 
-Kjs.ComponentManager.register('fit', Kjs.layout.Fit);
+Sb.ComponentManager.register('fit', Sb.layout.Fit);
 "use strict";
 
-Kjs.namespace("layout");
+Sb.namespace("layout");
 
-Kjs.layout.VSplit = function (_config) {
-  Kjs.Container.call(this, _config);
+Sb.layout.VSplit = function (_config) {
+  Sb.Container.call(this, _config);
 };
 
 (function (self) {
-  var baseClass = 'kjs-vsplit-container';
-  Kjs.extend(self, Kjs.Container.prototype);
+  var baseClass = 'sb-vsplit-layout';
+  Sb.extend(self, Sb.Container.prototype);
   self.classList = self.classList.concat([baseClass]);
   self.template = "<div></div>";
 
   self.renderTo = function (target) {
-    Kjs.Container.prototype.renderTo.call(this, target);
+    Sb.Container.prototype.renderTo.call(this, target);
   };
 
   self.afterItemRender = function (item, itemIdx, containerEl) {
+    item.addClass(baseClass + '-child'); // append gutter
     // ignore last element so gutter is not added at the end
+
     if (itemIdx !== this.items.length - 1) {
       containerEl.append(self.createSplitBorder());
     }
   };
 
-  self.createSplitBorder = function () {
-    return Kjs.Element.render('<div class="' + baseClass + '-gutter">&nbsp;</div>');
+  self.afterRender = function (target) {
+    console.log(target);
   };
-})(Kjs.layout.VSplit.prototype);
 
-Kjs.ComponentManager.register('vsplit', Kjs.layout.VSplit);
+  self.createSplitBorder = function () {
+    return Sb.Element.render('<div class="' + baseClass + '-gutter">&nbsp;</div>');
+  };
+})(Sb.layout.VSplit.prototype);
+
+Sb.ComponentManager.register('vsplit', Sb.layout.VSplit);
 "use strict";
 
-Kjs.namespace("zendesk");
+Sb.namespace("zendesk");
 
-Kjs.zendesk.Button = function (config) {
-  Kjs.Component.call(this, config);
+Sb.zendesk.Button = function (config) {
+  Sb.Component.call(this, config);
 
   if (config.primary) {
     this.classList.push("c-btn--primary");
@@ -353,16 +359,16 @@ Kjs.zendesk.Button = function (config) {
 };
 
 (function (self) {
-  Kjs.extend(self, Kjs.Component.prototype);
-  self.baseClass = 'kjs-zen-button';
+  Sb.extend(self, Sb.Component.prototype);
+  self.baseClass = 'sb-zen-button';
   self.text = null;
   self.classList = self.classList.concat([self.baseClass]);
   self.template = '<div class="c-btn">{text}</div>';
 
   self.renderTo = function (target) {
-    Kjs.Component.prototype.renderTo.call(this, target);
+    Sb.Component.prototype.renderTo.call(this, target);
   };
-})(Kjs.zendesk.Button.prototype);
+})(Sb.zendesk.Button.prototype);
 
-Kjs.ComponentManager.register('zen:button', Kjs.zendesk.Button);
+Sb.ComponentManager.register('zen:button', Sb.zendesk.Button);
 //# sourceMappingURL=k.js.map
