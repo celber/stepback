@@ -7,6 +7,10 @@ Sb.zendesk.Button = function (config) {
         this.classList.push("c-btn--primary");
     }
 
+    if (config.handler) {
+        this.handler = config.handler;
+    }
+
     this.templateData['text'] = config.text;
 };
 
@@ -15,6 +19,7 @@ Sb.zendesk.Button = function (config) {
 
     self.baseClass = 'sb-zen-button';
     self.text = null;
+    self.handler = function () {};
 
     self.classList = self.classList.concat([self.baseClass]);
     
@@ -22,6 +27,19 @@ Sb.zendesk.Button = function (config) {
 
     self.renderTo = function (target) {
         Sb.Component.prototype.renderTo.call(this, target);
+    };
+
+    self.setHandler = function (handler) {
+        var me = this;
+        me.el.off('click', me.handler);
+        me.handler = function () {
+            handler.apply(me);
+        };
+        me.el.on('click', me.handler);
+    };
+
+    self.afterRender = function (target) {
+        this.setHandler(this.handler);
     };
 })(Sb.zendesk.Button.prototype);
 

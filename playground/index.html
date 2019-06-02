@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <title>StepBack Playground</title>
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400&display=swap" rel="stylesheet">
+        <script type="application/javascript" src="https://unpkg.com/codeflask/build/codeflask.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.5.11/split.min.js"></script>
+        <link href="style.css" rel="stylesheet">
+        <link href="runBtn.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="header"><div class='logo'>&nbsp;</div><div class="title">Playground</div></div>
+        <div class='editor'>
+                <div id='editorWrapper'>
+                        <div id="editorPanel">
+        
+                        </div>
+                        <div class="actions">
+                                <button id="runBtn" class="bubbly-button">Run</button>
+                        </div>
+                </div>
+        
+                <iframe id="resultPanel">
+                    
+                </iframe>
+        </div>
+
+    </body>
+    <script>
+        var flask = new CodeFlask('#editorPanel', { language: 'js', lineNumbers: true });
+
+        const initialCode = 
+`var viewport = new Sb.layout.Fit({
+    items: [{
+            componentType: 'container',
+            classList: ['green-bg'],
+            items: [{
+                componentType: \"zen:button\",
+                primary: true,
+                text: \"Click Me!\",
+                handler: function () {
+                    console.log(this);
+                }
+            }]
+        }]
+    });
+    
+viewport.renderTo(Sb.queryOne(\"#app\"));`
+
+        flask.updateCode(initialCode);
+
+        document.getElementById('runBtn').onclick = function () {
+            var code = flask.getCode();
+            var frameDoc = document.getElementById('resultPanel').contentWindow.document;
+            frameDoc.open();
+            frameDoc.write(`
+                <head>
+                    <script type=\"application/javascript\" src=\"./sb.js\"> <\/script>
+                    <link rel=\"stylesheet\" href=\"./sb.css\"/>
+                    <style>
+                                #app {
+                                    height: 40px;
+                                    width: 500px;
+                                }
+                                body {
+                                    background-color: #fafafa;
+                                      margin: 0; 
+                                      padding: 10px;
+                                      padding-top: 30px;
+                                }
+            
+                                .green-bg {
+                                    background-color: #00ff0022;
+                                }
+            
+                                .sb-fit-container {
+                                    background-color: #ff000022;
+                                }
+                    <\/style>
+            <\/head>
+            <body>
+                <div id=\"app\"><\/div>
+            <\/body>
+            <script type=\"application/javascript\">
+            ${code}
+            <\/script>`
+            );
+            frameDoc.close();
+        }
+        
+
+        Split(['#editorWrapper', '#resultPanel'], {
+            sizes: [45, 55],
+            gutterSize: 10,
+        });
+
+        var animateButton = function(e) {
+            e.preventDefault;
+            //reset animation
+            e.target.classList.remove('animate');
+
+            e.target.classList.add('animate');
+            setTimeout(function(){
+            e.target.classList.remove('animate');
+            },700);
+        };
+
+        var bubblyButtons = document.getElementsByClassName("bubbly-button");
+
+        for (var i = 0; i < bubblyButtons.length; i++) {
+            bubblyButtons[i].addEventListener('click', animateButton, false);
+        }
+    </script>
+</html>

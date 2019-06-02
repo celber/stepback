@@ -13,7 +13,7 @@ var postcssCustomSelectors = require('postcss-custom-selectors');
 
 sass.compiler = require('node-sass');
 
-gulp.task('serve', serve('.'));
+gulp.task('serve-playground', serve({root: ['./playground', './dist']}));
 
 var fileList = [
   './src/Core.js',
@@ -34,7 +34,7 @@ function _concatJS () {
     .pipe(babel({
         presets: ['@babel/env']
     }))
-    .pipe(concat('k.js'))
+    .pipe(concat('sb.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist/'));
 }
@@ -52,7 +52,7 @@ function _buildSCSS () {
   )
   .pipe(sourcemaps.init())
   .pipe(sass.sync().on('error', sass.logError))
-  .pipe(concat('k.css'))
+  .pipe(concat('sb.css'))
   .pipe(gulp.dest('./dist'))
   .pipe(sourcemaps.write());
 };
@@ -60,7 +60,7 @@ function _buildSCSS () {
 gulp.task('buildSCSS', _buildSCSS);
 
 function _minifyJS() {
-  return gulp.src(['./dist/k.js'])
+  return gulp.src(['./dist/sb.js'])
     .pipe(minify())
     .pipe(gulp.dest('dist'))
 }

@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+}
+.header {
+    height: 50px;
+    padding: 10px;
+    display: block;
+    position: relative;
+    z-index: 999;
+
+    -webkit-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
+-moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
+box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
+}
+.logo {
+    display: inline-block;
+    height: 70px;
+    font-size: 40px;
+    width: 160px;
+    margin-left: 26px;
+    background-position: center -83px;
+    background-size: 224px;
+    background-image: url(logo.png);
+}
+.title {
+    font-family: 'Quicksand', sans-serif;
+    display: inline;
+    font-size: 30px;
+    font-weight: 300;
+    margin-left: 20px;
+}
+.editor {
+    display: flex;
+    height: calc( 100% - 70px );
+    align-items: stretch;
+}
+
+.editor .codeflask {
+    height: calc( 100% - 289px );
+}
+
+#editorWrapper {
+    position: relative;
+    min-height: 100%;
+}
+.gutter {
+    background-color: #eaeaea;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+}
+
+#resultPanel {
+    border: none;
+    background-color: #fafafa;
+    min-height: 100%;
+}
+.actions {
+    background-color: #fafafa;
+    padding: 20px;
+    position: absolute;
+    height: 250px;
+    width: calc( 100% - 40px );
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+}
+
+#runBtn {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+}
