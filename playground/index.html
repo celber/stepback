@@ -8,13 +8,28 @@
         <link href="runBtn.css" rel="stylesheet">
     </head>
     <body>
-        <div class="header"><div class='logo'>&nbsp;</div><div class="title">Playground</div></div>
+        <div class="header">
+            <div class='logo'>&nbsp;</div><div class="title">Playground</div>
+            <div id="examplesBtn" class="inline">
+                <span>Examples&nbsp;&nbsp;▼</span>
+                <div class="dropdown">
+                    <span>Examples&nbsp;&nbsp;◢</span>
+                    <hr/>
+                    <a href="#fitlayout">Fit layout</a>
+                    <a href="#vsplitlayout">VSplit layout</a>
+                </div>
+            </div>
+        </div>
         <div class='editor'>
                 <div id='editorWrapper'>
-                        <div id="editorPanel">
-        
-                        </div>
-                        <div class="actions">
+                        <div id="editorPanelJS" class="editorPanel"></div>
+                        <div id="editorPanelCSS" class="editorPanel"></div>
+                        <div id="editorActions" class="editorPanel">
+                                <div id="runProgress">
+                                    <div class="waiting-message">Change code to autorun....</div>
+                                    <div class="progress-message">Autorun in progress...</div>
+                                    <div class="progress-bar"></div>
+                                </div>
                                 <button id="runBtn" class="bubbly-button">Run</button>
                         </div>
                 </div>
@@ -26,9 +41,10 @@
 
     </body>
     <script>
-        var flask = new CodeFlask('#editorPanel', { language: 'js', lineNumbers: true });
+        var flaskJS = new CodeFlask('#editorPanelJS', { language: 'js', lineNumbers: true });
+        var flaskCSS = new CodeFlask('#editorPanelCSS', { language: 'css', lineNumbers: true });
 
-        const initialCode = 
+        var initialCodeJS = 
 `var viewport = new Sb.layout.Fit({
     items: [{
             componentType: 'container',
@@ -46,10 +62,33 @@
     
 viewport.renderTo(Sb.queryOne(\"#app\"));`
 
-        flask.updateCode(initialCode);
+var initialCodeCSS = 
+`#app {
+    height: 40px;
+    width: 500px;
+}
+body {
+    background-color: #fafafa;
+    margin: 0; 
+    padding: 10px;
+    padding-top: 30px;
+}
+
+.green-bg {
+    background-color: #00ff0022;
+}
+
+.sb-fit-container {
+    background-color: #ff000022;
+}`;
+
+        flaskJS.updateCode(initialCodeJS);
+
+        flaskCSS.updateCode(initialCodeCSS);
 
         document.getElementById('runBtn').onclick = function () {
-            var code = flask.getCode();
+            var codeJS  = flaskJS.getCode();
+            var codeCSS = flaskCSS.getCode();
             var frameDoc = document.getElementById('resultPanel').contentWindow.document;
             frameDoc.open();
             frameDoc.write(`
@@ -57,39 +96,33 @@ viewport.renderTo(Sb.queryOne(\"#app\"));`
                     <script type=\"application/javascript\" src=\"./sb.js\"> <\/script>
                     <link rel=\"stylesheet\" href=\"./sb.css\"/>
                     <style>
-                                #app {
-                                    height: 40px;
-                                    width: 500px;
-                                }
-                                body {
-                                    background-color: #fafafa;
-                                      margin: 0; 
-                                      padding: 10px;
-                                      padding-top: 30px;
-                                }
-            
-                                .green-bg {
-                                    background-color: #00ff0022;
-                                }
-            
-                                .sb-fit-container {
-                                    background-color: #ff000022;
-                                }
+                        ${codeCSS}
                     <\/style>
             <\/head>
             <body>
                 <div id=\"app\"><\/div>
             <\/body>
             <script type=\"application/javascript\">
-            ${code}
+            ${codeJS}
             <\/script>`
             );
             frameDoc.close();
         }
         
 
+        flaskJS.onUpdate(runDelay);
+        flaskCSS.onUpdate(runDelay);
+
+
         Split(['#editorWrapper', '#resultPanel'], {
             sizes: [45, 55],
+            gutterSize: 10
+        });
+
+        Split(['#editorPanelJS', '#editorPanelCSS','#editorActions'], {
+            sizes: [49, 49, 2],
+            direction: 'vertical',
+            minSize: 135,
             gutterSize: 10,
         });
 
@@ -109,5 +142,36 @@ viewport.renderTo(Sb.queryOne(\"#app\"));`
         for (var i = 0; i < bubblyButtons.length; i++) {
             bubblyButtons[i].addEventListener('click', animateButton, false);
         }
+
+        if(window.location.hash) {
+            loadExample(window.location.hash.substring(1,window.location.hash.length))
+        }
+
+        window.addEventListener('hashchange', function() {
+            loadExample(window.location.hash.substring(1,window.location.hash.length))
+        });
+
+        function loadExample(name) {
+            console.log(name)
+            // TODO load example
+        }
+
+
+        var RUN_DELAY = 2000;
+        var progressInterval = null;
+        function runDelay() {
+            var progress = 0;
+            clearInterval(progressInterval);
+            progressInterval = setInterval(function () {
+                progress++;
+                if (progress > 99) {
+                    progress = 0;
+                    clearInterval(progressInterval);
+                    document.getElementById('runBtn').click();
+                }
+                document.querySelector('#runProgress .progress-bar').style.width = progress+"%";
+            }, RUN_DELAY/100);
+        }
+
     </script>
 </html>
