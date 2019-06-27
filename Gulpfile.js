@@ -22,8 +22,8 @@ exports['serve:homepage:sass'] = function() {
 };
 
 
-// gulp.task('serve:playground', serve({root: ['./playground', './dist']}));
-// gulp.task('serve:docs', serve({root: ['./docs']}));
+exports['serve:playground'] = serve({root: ['./docs/playground', './dist']});
+exports['serve:docs'] = serve({root: ['./docs/docs']});
 exports['serve:homepage'] = function() {
 
   exports['serve:homepage:sass']();
@@ -120,7 +120,6 @@ exports.default = gulp.series(buildSCSS, buildJS);
 
 exports.watch = function watch(done) {
   watch(fileList.concat(['./src/**/*.scss']), function(cb) {
-    console.log("Changes detected!");
     gulp.series(buildSCSS, buildJS)(cb);
     //cb();
   });

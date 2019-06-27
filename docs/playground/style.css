@@ -10,8 +10,8 @@ body {
     padding-top: 2px;
 
     -webkit-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
--moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
+    -moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
+    box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
 }
 
 .inline {
@@ -99,6 +99,7 @@ box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.29);
 #resultPanel {
     border: none;
     background-color: #fafafa;
+    height: 100%;
     min-height: 100%;
 }
 #editorActions {

@@ -110,6 +110,14 @@ body {
         }
     
 
+        // Firefox does not support calc on flexbox, this hack fixes issue
+        function windowResize() {
+            document.querySelector('.editor').style.height = window.innerHeight - 70;
+        }
+
+        window.addEventListener('resize', windowResize);
+        windowResize(); 
+
         Split(['#editorWrapper', '#resultPanel'], {
             sizes: [45, 55],
             gutterSize: 10
