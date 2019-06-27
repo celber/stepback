@@ -12,30 +12,6 @@ html {
   font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,Arial,sans-serif;
   font-size: 14px; }
 
-.sb-fit-container {
-  display: block;
-  position: relative; }
-
-.sb-fit-container > * {
-  height: 100%;
-  width: 100%; }
-
-.sb-vsplit-layout {
-  position: relative; }
-
-.sb-vsplit-layout-child {
-  display: inline-block;
-  height: 100%; }
-
-.sb-vsplit-layout-gutter {
-  background-color: red;
-  display: inline-block;
-  height: 100%;
-  width: 8px;
-  position: absolute; }
-  .sb-vsplit-layout-gutter:hover {
-    background-color: green; }
-
 /*!
  * Copyright Zendesk, Inc.
  *
@@ -617,3 +593,27 @@ html {
 
 .c-btn--muted.c-btn--basic {
   border: none; }
+
+.sb-fit-container {
+  display: block;
+  position: relative; }
+
+.sb-fit-container > * {
+  height: 100%;
+  width: 100%; }
+
+.sb-vsplit-layout {
+  position: relative; }
+
+.sb-vsplit-layout-child {
+  display: inline-block;
+  height: 100%; }
+
+.sb-vsplit-layout-gutter {
+  background-color: red;
+  display: inline-block;
+  height: 100%;
+  width: 8px;
+  position: absolute; }
+  .sb-vsplit-layout-gutter:hover {
+    background-color: green; }

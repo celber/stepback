@@ -1,5 +1,5 @@
 {
-  "name": "k",
+  "name": "stepback",
   "version": "1.0.0",
   "description": "Fast & simple Web application UI framework",
   "main": "Gulpfile.js",
@@ -25,6 +25,7 @@
     "@babel/plugin-transform-template-literals": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "babel": "^6.23.0",
+    "browser-sync": "^2.26.7",
     "docsify-themeable": "^0.7.2",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
