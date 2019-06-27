@@ -15,15 +15,22 @@ sass.compiler = require('node-sass');
 
 // Compile sass into CSS & auto-inject into browsers
 exports['serve:homepage:sass'] = function() {
-  return gulp.src("./homepage/scss/*.scss")
+  return gulp.src("./docs/scss/*.scss")
       .pipe(sass())
-      .pipe(gulp.dest("./homepage/css"))
+      .pipe(gulp.dest("./docs/css"))
       .pipe(browserSync.stream());
 };
 
 
 exports['serve:playground'] = serve({root: ['./docs/playground', './dist']});
-exports['serve:docs'] = serve({root: ['./docs/docs']});
+exports['serve:docs'] = function () {
+  browserSync.init({
+    server: "./docs/docs/"
+  });
+
+  gulp.watch("./docs/docs/**/*.md").on('change', browserSync.reload);
+}
+
 exports['serve:homepage'] = function() {
 
   exports['serve:homepage:sass']();

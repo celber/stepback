@@ -95,3 +95,20 @@ Sb.extend(a, b);
 // }
 
 ```
+
+### formatString
+- string: `String` szablon tekstu
+- data: `Object` dane wejściowe
+
+Wypełnia ciąg znaków danymi w miejscach wyznaczonym `{klucz}`
+
+!> Typy inne niż proste nie zostaną skopiowane, skopiowana zostanie referencja.
+
+```js
+var a = {foo: 1};
+var b = Sb.clone(a);
+b.foo = 2;
+
+// a.foo == 1
+// b.foo == 2
+```
