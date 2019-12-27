@@ -23,6 +23,29 @@ exports['serve:homepage:sass'] = function() {
 
 
 exports['serve:playground'] = serve({root: ['./docs/playground', './dist']});
+
+function _buildKitchensinkStyles () {
+
+}
+exports['serve:kitchensink'] = 
+  function () {
+    browserSync.init({
+      server: "./docs/kitchensink/"
+    });
+  
+    watch("./docs/kitchensink/**/*.scss", {
+      ignoreInitial: false
+    })
+      .pipe(postcss({modules: true}))
+      .pipe(
+        postcss([
+          postcssCustomSelectors({})
+        ])
+      )
+      .pipe(sass())
+      .pipe(browserSync.stream());
+};
+
 exports['serve:docs'] = function () {
   browserSync.init({
     server: "./docs/docs/"
