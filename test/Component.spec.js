@@ -7,7 +7,7 @@ describe('Component', function () {
     });
 
     it('does not render immediately', function() {
-        expect(cmp.el).toBeUndefined();
+        expect(cmp.el).toBeNull();
     });
 
     it('generates unique id for component', function () {

@@ -2,23 +2,10 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 module.exports = function(config) {
     config.set({
-      browsers: ['FirefoxHeadless', 'ChromeHeadless'],
+      browsers: ['FirefoxHeadless'],
       reporters: ['progress', 'coverage'],
       preprocessors: {
-        'src/**/*.js': ['coverage', 'babel'],
-        'test/**/*.js': ['babel']
-      },
-      babelPreprocessor: {
-        options: {
-          presets: ['@babel/preset-env'],
-          sourceMap: 'inline'
-        },
-        filename: function (file) {
-          return file.originalPath.replace(/\.js$/, '.es5.js');
-        },
-        sourceFileName: function (file) {
-          return file.originalPath;
-        }
+        'src/**/*.js': ['coverage']
       },
       coverageReporter: {
         reporters: [
@@ -35,11 +22,12 @@ module.exports = function(config) {
       files: [
         'src/Core.js',
         'src/DOM/**/*.js',
+        'src/mixins/**/*.js',
         'src/ComponentManager.js',
         'src/Component.js',
         'src/Container.js',
-        'src/Button/Button.js',
-        'src/layout/fit/*.js',
+        'src/zendesk/Button/Button.js',
+        'src/layout/Fit/*.js',
         'src/layout/VSplit/*.js',
         'test/**/*.spec.js'
       ]

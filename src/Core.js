@@ -1,7 +1,17 @@
 'use strict';
 
+/**
+ * @classdesc Svarog global object
+ * @global
+ * @static
+ * @class
+ */
 var Sb = {};
 
+/**
+ * Global config for plugins
+ * @constant
+ */
 Sb.config = {
     fx: {
         animations: true,
@@ -12,6 +22,12 @@ Sb.config = {
     }
 };
 
+/**
+ * Create namespace for a class
+ * @param {String} namespace dot-separated namespace
+ * @example
+ *  Sb.namespace('Sb.Foo.Bar')
+ */
 Sb.namespace = function (namespace) {
     var ns = namespace.split('.'), 
         branch = this,
@@ -28,6 +44,11 @@ Sb.namespace = function (namespace) {
     return branch;
 };
 
+/**
+ * clones an object
+ * @param {Object} source
+ * @returns {Object} cloned object
+ */
 Sb.clone = function (source) {
     var target = Object();
 
@@ -41,6 +62,14 @@ Sb.clone = function (source) {
     return target;
 };
 
+/**
+ * Extends an object with given source *recursively*
+ * Also merges arrays and nested objects
+ * @param {Object} target
+ * @param {Object} source
+ * 
+ * @returns null
+ */
 Sb.extend = function (target, source) {
     for (var key in source) {
         if (source[key] instanceof Array) {
@@ -53,8 +82,20 @@ Sb.extend = function (target, source) {
             target[key] = source[key];
         }
     }
+
+    return null;
 };
 
+/**
+ * Format template string.
+ * @param {String} string Template string
+ * @param {Object|Map} data Key => value mapped data for template
+ * 
+ * @example
+ * Sb.formatString("a {b}", {b: 2})
+ * 
+ * @returns {String} compiled string
+ */
 Sb.formatString = function (string, data) {
     for (var key in data) {
         string = string.replace("{" + key + "}", data[key])

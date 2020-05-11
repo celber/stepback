@@ -8,7 +8,7 @@ describe('Fit layout', function () {
             }]
         });
 
-        expect(container.el).toBeUndefined();
+        expect(container.el).toBeNull();
     });
 
     it('renders', function () {

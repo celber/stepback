@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var KarmaServer = require('karma').Server;
 var sourcemaps = require('gulp-sourcemaps');
-var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 var serve = require('gulp-serve');
@@ -25,10 +24,10 @@ exports['serve:homepage:sass'] = function() {
 exports['serve:playground'] = serve({root: ['./docs/playground', './dist']});
 exports['serve:docs'] = function () {
   browserSync.init({
-    server: "./docs/docs/"
+    server: "./docs/"
   });
 
-  gulp.watch("./docs/docs/**/*.md").on('change', browserSync.reload);
+  gulp.watch("./docs/**/*.html").on('change', browserSync.reload);
 }
 
 exports['serve:homepage'] = function() {
@@ -50,9 +49,13 @@ var fileList = [
   './src/Component.js',
   './src/Container.js',
   './src/DOM/*.js',
+  './src/mixins/**/*.js',
   './src/layout/Fit/*.js',
-  './src/layout/VSplit/Vsplit.js',
-  './src/zendesk/button/Button.js'
+  './src/layout/VSplit/VSplit.js',
+  './src/zendesk/Button/Button.js',
+  './src/zendesk/Arrow/Arrow.js',
+  './src/zendesk/menu/Item/Item.js',
+  './src/zendesk/Avatar/Avatar.js'
 ];
 
 
@@ -60,9 +63,6 @@ function concatJS () {
   return gulp
     .src(fileList)
     .pipe(sourcemaps.init())
-    .pipe(babel({
-        presets: ['@babel/env']
-    }))
     .pipe(concat('sb.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist/'));
@@ -81,7 +81,8 @@ function buildSCSS () {
   .pipe(sass.sync().on('error', sass.logError))
   .pipe(concat('sb.css'))
   .pipe(gulp.dest('./dist'))
-  .pipe(sourcemaps.write());
+  .pipe(sourcemaps.write())
+  .pipe(browserSync.stream());
 };
 
 
@@ -91,9 +92,7 @@ function minifyJS() {
     .pipe(gulp.dest('dist'))
 }
 
-function buildJS() {
-  return gulp.series(concatJS, minifyJS)
-}
+const buildJS = gulp.series(concatJS, minifyJS);
 
 exports.buildJS = buildJS;
 
@@ -121,13 +120,27 @@ function tdd(done) {
 };
 exports.tdd = tdd;
 
-exports.build = gulp.series(buildSCSS, buildJS);
+const build = gulp.series(buildSCSS, buildJS);
+exports.build = build;
 
-exports.default = gulp.series(buildSCSS, buildJS);
+exports.default = build;
 
-exports.watch = function watch(done) {
-  watch(fileList.concat(['./src/**/*.scss']), function(cb) {
-    gulp.series(buildSCSS, buildJS)(cb);
-    //cb();
+exports.watch = gulp.series(build, function watchSrc() {
+  browserSync.init({
+    server: {
+      baseDir: "./test",
+    },
+    ghostMode: false,
+    serveStatic: [{
+      route: '/dist',
+      dir: './dist'
+    }],
+    port: 3001
   });
-};
+
+  watch(fileList.concat(['./src/**/*.scss']), function(cb) {
+    build(cb);
+  });
+
+  watch('./dist/sb.js').on('change', browserSync.reload);
+});

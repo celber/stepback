@@ -1,0 +1,47 @@
+<script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3001/browser-sync/browser-sync-client.js?v=2.26.7'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
+
+<html>
+    <head>
+        <link rel='stylesheet' href='dist/sb.css' />
+        <script type="application/javascript" src='dist/sb.js'></script>
+        <title>ZenGarden Kitchensink</title>
+    </head>
+
+
+    <body>
+
+        <div id='container'>
+
+        </div>
+
+    </body>
+
+    <script type="application/javascript">
+        const containerEl = Sb.queryOne('#container');
+
+        new Sb.zendesk.Button({
+            text: "Button",
+            handler: () => {alert('It Works!')}
+        }).renderTo(containerEl);
+
+        new Sb.zendesk.Arrow({
+            orientation: "bl",
+            items: [{
+                componentType: 'zen:menuitem',
+                text: 'Item 1',
+                handler: () => {console.log('Item 1 clicked!')}
+            }, {
+                componentType: 'zen:menuitem',
+                text: 'Item 2',
+                handler: () => {console.log('Item 2 clicked!')}
+            }]
+        }).renderTo(containerEl);
+
+        new Sb.zendesk.Avatar({
+            src: "https://picsum.photos/200"
+        }).renderTo(containerEl);
+    </script>
+</html>

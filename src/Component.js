@@ -1,7 +1,14 @@
-"use strict";
+'use strict';
+/**
+ * @class
+ * @classdesc Svarog base component
+ * @param {Object} [_config={}]  Configuration object
+ * @mixes Sb.mixin.Observable
+ */
 Sb.Component = function (_config) {
     var config = _config || {};
 
+    Sb.extend(this, Sb.mixin.Observable);
     Sb.extend(this, config);
 
     if (!config.id) {
@@ -9,24 +16,70 @@ Sb.Component = function (_config) {
     }
 };
 
+/**
+ * First element ID, this is incremented automatically when component without ID is created.
+ * @constant
+ * @static
+ */
 Sb.Component.NEXT_ID = 1;
 
+/**
+ * gets next element Id using {@link Sb.Component.NEXT_ID}
+*/
 Sb.Component.getId = function () {
     return "sb-" + Sb.Component.NEXT_ID++;
 }; 
 
-(function (self) {
+(function (/** @alias Sb.Component.prototype */ self) {
     var baseClass = 'sb-component';
-    self.id;
-    self.el;
+
+    /**
+     * Sb.Element instance
+     * @type {Sb.Element|HTMLElement}
+     */
+    self.el = null;
+
+    /**
+     * Set to true if component was already rendered
+     * @type {Boolean}
+     */
     self.rendered = false;
-    self.parent;
+
+    /**
+     * Parent container
+     * @type {Sb.Container}
+     */
+    self.parent = null;
+
+    /**
+     * Initial CSS class for component
+     * @type {String}
+     */
     self.baseClass = baseClass;
+
+    /**
+     * Initial CSS classes (includes {@link Sb.Component#baseClass})
+     * @type {Array<String>}
+     */
     self.classList = [baseClass];
 
+    /**
+     * Template used to render component
+     * @see {@link Sb.formatString}
+     * @type String
+     */
     self.template = '<div></div>';
+
+    /**
+     * Key => value mapped object of values which are gonna be injected into template
+     * @type Object
+     */
     self.templateData = {};
 
+
+    /**
+     * Renders component to given container
+     */
     self.renderTo = function (target) {
         this.beforeRender(target);
         this.el = this.el || Sb.Element.render(Sb.formatString(this.template, this.templateData));
@@ -41,11 +94,17 @@ Sb.Component.getId = function () {
         return this;
     };
 
+    /**
+     * Add CSS class to component
+     */
     self.addClass = function (cls) {
         this.el.addClass(cls);
         this.classList.push(cls);
     };
 
+    /**
+     * Removes CSS class from component
+     */
     self.removeClass = function (cls) {
         this.el.removeClass(cls);
         this.classList = this.classList.filter(function(value) {
@@ -53,10 +112,16 @@ Sb.Component.getId = function () {
         });
     };
 
-    // abstract
+    /**
+     * fired before component is rendered
+     * @virtual
+     */
     self.beforeRender = function (target) {};
+    /**
+     * fired after component is rendered
+     * @virtual
+     */
     self.afterRender = function (target) {};
-
-} (Sb.Component.prototype));
+}(Sb.Component.prototype));
 
 Sb.ComponentManager.register('component', Sb.Component);
