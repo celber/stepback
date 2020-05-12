@@ -18,6 +18,9 @@
   "dest": "./docs",
   "clean": true,
   "debug": false,
+  "assets": {
+    "./": ["./playground", "./dist"]
+  },
   "jsdoc": {
     "encoding": "utf8",
     "recurse": true,
