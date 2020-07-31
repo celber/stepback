@@ -1,0 +1,3 @@
+Sb.Store = function () {
+  
+}

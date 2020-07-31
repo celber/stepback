@@ -1,0 +1,37 @@
+language: node_js
+dist: trusty
+node_js:
+  - node
+addons:
+  apt:
+    packages:
+      - firefox
+os: linux
+cache: yarn
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - yarn run test
+      after_success:
+        - .travis/push.sh
+    - stage: build
+      script:
+        - echo 'Building dist files'
+        - mkdir dist
+        - yarn run build
+      after_success:
+        - .travis/push.sh
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GH_TOKEN
+  keep_history: true
+
+stages:
+  - name: test
+  - name: build
+    # require the type to be push to master
+    if: type = push AND branch = master

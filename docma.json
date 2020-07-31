@@ -1,0 +1,77 @@
+{
+  "src": [
+    "./src/Core.js",
+    "./src/namespaces.js",
+    "./src/mixins/**/*.js",
+    "./src/ComponentManager.js",
+    "./src/Worker.js",
+    "./src/Component.js",
+    "./src/Container.js",
+    "./src/DOM/*.js",
+    "./src/layout/Fit/*.js",
+    "./src/layout/VSplit/VSplit.js",
+    "./src/zendesk/Button/Button.js",
+    "./src/zendesk/Arrow/Arrow.js",
+    "./src/zendesk/menu/Item/Item.js",
+    "./src/zendesk/Avatar/Avatar.js",
+    "./README.md"
+  ],
+  "dest": "./docs",
+  "clean": true,
+  "debug": false,
+  "assets": {
+    "./": ["./playground", "./dist"]
+  },
+  "jsdoc": {
+    "encoding": "utf8",
+    "recurse": true,
+    "pedantic": false,
+    "access": null,
+    "package": null,
+    "module": false,
+    "undocumented": false,
+    "undescribed": false,
+    "ignored": false,
+    "hierarchy": true,
+    "relativePath": null,
+    "filter": null,
+    "sort": "grouped",
+    "allowUnknownTags": false,
+    "plugins": []
+  },
+  "markdown": {
+    "gfm": true,
+    "tables": true,
+    "breaks": false,
+    "pedantic": false,
+    "sanitize": false,
+    "smartLists": true,
+    "smartypants": false,
+    "xhtml": false,
+    "tasks": true,
+    "emoji": true
+  },
+  "app": {
+    "title": "Svarog Documentation",
+    "meta": null,
+    "entrance": "content:readme",
+    "routing": "path"
+  },
+  "template": {
+    "options": {
+      "title": {
+        "label": "Svarog v1.0.0"
+      },
+      "sidebar": {
+        "itemsOverflow": "shrink",
+        "itemsFolded": true,
+        "badges": true
+      },
+      "symbols": {
+        "meta": true,
+        "params": "table",
+        "props": "table"
+      }
+    }
+  }
+}
