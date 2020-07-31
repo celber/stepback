@@ -1,4 +1,4 @@
 node_modules/
 coverage/
-dist/
-docs/
+.DS_Store
+homepage/docs/

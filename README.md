@@ -1,4 +1,5 @@
-# StepBack
+# StepBack 
+[![Build Status](https://travis-ci.org/celber/stepback.svg?branch=master)](https://travis-ci.org/celber/stepback)
 
 Simple and plain JavaScript framework. Basically jQuery for modern web applications.
 

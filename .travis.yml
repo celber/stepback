@@ -1,4 +1,3 @@
-
 language: node_js
 dist: trusty
 node_js:
@@ -9,3 +8,19 @@ addons:
       - firefox
 os: linux
 cache: yarn
+
+script:
+  - echo 'Testing'
+  - yarn run test
+  - echo 'Building dist files'
+  - mkdir dist
+  - yarn run build
+  - echo 'Building documentation'
+  - yarn run build:docs
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: homepage
+  github_token: $GH_TOKEN
+  keep_history: true

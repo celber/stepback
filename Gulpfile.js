@@ -16,34 +16,27 @@ var buildOrder = require('./buildOrder.js');
 sass.compiler = require('node-sass');
 
 // Compile sass into CSS & auto-inject into browsers
-exports['serve:homepage:sass'] = function() {
-  return gulp.src("./docs/scss/*.scss")
+exports['homepage:sass'] = function() {
+  return gulp.src("./homepage/scss/*.scss")
       .pipe(sass())
-      .pipe(gulp.dest("./docs/css"))
+      .pipe(gulp.dest("./homepage/css"))
       .pipe(browserSync.stream());
 };
 
 
-exports['serve:docs'] = function () {
+exports['serve:homepage'] = function () {
   browserSync.init({
-    server: "./docs/"
+    server: {
+      baseDir: "./homepage/",
+      routes: {
+        "/stepback/": "./homepage/"
+      }
+
+    }
   });
 
-  gulp.watch("./docs/**/*.html").on('change', browserSync.reload);
+  gulp.watch("./homepage/docs/**/*.html").on('change', browserSync.reload);
 }
-
-exports['serve:homepage'] = function() {
-
-  exports['serve:homepage:sass']();
-
-  browserSync.init({
-      server: "./homepage"
-  });
-
-  gulp.watch("./homepage/scss/*.scss", exports['serve:homepage:sass']);
-  gulp.watch("./homepage/*.html").on('change', browserSync.reload);
-};
-
 
 
 function concatJS () {
@@ -93,7 +86,7 @@ function buildDocs() {
       "assets": {
         "./": ["./dist", "./playground"]
       },
-      "dest": "./docs",
+      "dest": "./homepage/docs",
       "clean": true,
       "debug": false,
       "jsdoc": {
@@ -126,15 +119,39 @@ function buildDocs() {
         "emoji": true
       },
       "app": {
-        "title": "Svarog Documentation",
+        "title": "StepBack Documentation",
         "meta": null,
         "entrance": "content:readme",
-        "routing": "path"
+        "routing": "path",
+        "base": "/stepback/docs/"
       },
       "template": {
         "options": {
           "title": {
-            "label": "Svarog v1.0.0"
+            "label": "StepBack v1.0.0"
+          },
+          "contentView": {
+            "bookmarks": "h1,h2,h3",
+            "faLibs": "all"
+          },
+          "navbar": {
+            "enabled": true,
+            "fixed": true,
+            "dark": false,
+            "animations": true,
+            "menu": [
+              {
+                "iconClass": "fas fa-book",
+                "label": "API Reference",
+                "href": "./api/"
+              },
+              {
+                "iconClass": "fas fa-play",
+                "label": "Playground",
+                "href": "./playground/index.html",
+                "target": "_self"
+              }
+            ]
           },
           "sidebar": {
             "itemsOverflow": "shrink",
@@ -154,7 +171,7 @@ function buildDocs() {
     });
 }
 
-exports.buildDocs = buildDocs;
+exports["build:docs"] = buildDocs;
 
 /**
  * Run test once and exit
@@ -180,7 +197,7 @@ function tdd(done) {
 };
 exports.tdd = tdd;
 
-const build = gulp.series(buildSCSS, buildJS, buildDocs);
+const build = gulp.series(buildSCSS, buildJS);
 exports.build = build;
 
 exports.default = build;
@@ -188,7 +205,7 @@ exports.default = build;
 exports.watch = gulp.series(build, function watchSrc() {
   browserSync.init({
     server: {
-      baseDir: "./docs",
+      baseDir: "./homepage",
     },
     ghostMode: false,
     port: 3001
