@@ -9,29 +9,17 @@ addons:
 os: linux
 cache: yarn
 
-jobs:
-  include:
-    - stage: test
-      script:
-        - yarn run test
-      after_success:
-        - .travis/push.sh
-    - stage: build
-      script:
-        - echo 'Building dist files'
-        - mkdir dist
-        - yarn run build
-      after_success:
-        - .travis/push.sh
+script:
+  - echo 'Testing'
+  - yarn run test
+  - echo 'Building dist files'
+  - mkdir dist
+  - yarn run build
+  - echo 'Building documentation'
+  - yarn run build:docs
 
 deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GH_TOKEN
   keep_history: true
-
-stages:
-  - name: test
-  - name: build
-    # require the type to be push to master
-    if: type = push AND branch = master
