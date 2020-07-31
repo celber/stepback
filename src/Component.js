@@ -3,17 +3,66 @@
  * @class
  * @classdesc Svarog base component
  * @param {Object} [_config={}]  Configuration object
- * @mixes Sb.mixin.Observable
+ * @extends Sb.mixin.Observable
  */
 Sb.Component = function (_config) {
     var config = _config || {};
 
-    Sb.extend(this, Sb.mixin.Observable);
-    Sb.extend(this, config);
+    Sb.mixin.Observable.call(this);
 
     if (!config.id) {
         this.id = Sb.Component.getId();
     }
+
+    /**
+     * Sb.Element instance
+     * @type {Sb.Element|HTMLElement}
+     */
+    this.el = null;
+
+    /**
+     * Set to true if component was already rendered
+     * @type {Boolean}
+     */
+    this.rendered = false;
+
+    /**
+     * Parent container
+     * @type {Sb.Container}
+     */
+    this.parent = null;
+
+    /**
+     * Initial CSS class for component
+     * @type {String}
+     */
+    this.baseClass = 'sb-component';
+
+    /**
+     * Initial CSS classes (includes {@link Sb.Component#baseClass})
+     * @type {Array<String>}
+     */
+    this.classList = [this.baseClass];
+
+    /**
+     * Template used to render component
+     * @see {@link Sb.formatString}
+     * @type String
+     */
+    this.template = '<div></div>';
+
+    /**
+     * Key => value mapped object of values which are gonna be injected into template
+     * @type Object
+     */
+    this.templateData = {};
+
+
+    Sb.merge(this, config);
+
+    //removeIf(!debug)
+    Sb.debug.stats.componentsCreated++;
+    //endRemoveIf(!debug)
 };
 
 /**
@@ -30,52 +79,28 @@ Sb.Component.getId = function () {
     return "sb-" + Sb.Component.NEXT_ID++;
 }; 
 
+/**
+ * Component was rendered.
+ *
+ * @event Sb.Component#render
+ * @type {Sb.Component}
+ */
+
+/**
+ * Component was shown.
+ *
+ * @event Sb.Component#show
+ * @type {Sb.Component}
+ */
+
+/**
+ * Component was hidden.
+ *
+ * @event Sb.Component#hide
+ * @type {Sb.Component}
+ */
+
 (function (/** @alias Sb.Component.prototype */ self) {
-    var baseClass = 'sb-component';
-
-    /**
-     * Sb.Element instance
-     * @type {Sb.Element|HTMLElement}
-     */
-    self.el = null;
-
-    /**
-     * Set to true if component was already rendered
-     * @type {Boolean}
-     */
-    self.rendered = false;
-
-    /**
-     * Parent container
-     * @type {Sb.Container}
-     */
-    self.parent = null;
-
-    /**
-     * Initial CSS class for component
-     * @type {String}
-     */
-    self.baseClass = baseClass;
-
-    /**
-     * Initial CSS classes (includes {@link Sb.Component#baseClass})
-     * @type {Array<String>}
-     */
-    self.classList = [baseClass];
-
-    /**
-     * Template used to render component
-     * @see {@link Sb.formatString}
-     * @type String
-     */
-    self.template = '<div></div>';
-
-    /**
-     * Key => value mapped object of values which are gonna be injected into template
-     * @type Object
-     */
-    self.templateData = {};
-
 
     /**
      * Renders component to given container
@@ -91,6 +116,7 @@ Sb.Component.getId = function () {
         target.append(this.el);
         this.rendered = true;
         this.afterRender(target);
+        this.fire('render', this);
         return this;
     };
 
@@ -123,5 +149,6 @@ Sb.Component.getId = function () {
      */
     self.afterRender = function (target) {};
 }(Sb.Component.prototype));
+Sb.mixin(Sb.Component, Sb.mixin.Observable);
 
 Sb.ComponentManager.register('component', Sb.Component);

@@ -1,5 +1,5 @@
 describe('Core', function() {
-    it('extends object', function () {
+    it('merges object', function () {
         var a = {
             foo: 1,
             bar: {
@@ -8,7 +8,7 @@ describe('Core', function() {
             }
         };
 
-        Sb.extend(a, {
+        Sb.merge(a, {
             bar: {
                 taz: 99
             }

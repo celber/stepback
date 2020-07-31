@@ -1,0 +1,11 @@
+
+language: node_js
+dist: trusty
+node_js:
+  - node
+addons:
+  apt:
+    packages:
+      - firefox
+os: linux
+cache: yarn

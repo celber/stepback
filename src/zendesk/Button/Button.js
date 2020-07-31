@@ -3,6 +3,15 @@ Sb.namespace("zendesk");
 Sb.zendesk.Button = function (config) {
     Sb.Component.call(this, config);
 
+    this.baseClass = 'sb-zen-button';
+
+    this.classList.push(this.baseClass);
+
+    this.text = config.text;
+    this.handler = function () {};
+    
+    this.template = `<div class="c-btn">{text}</div>`;
+
     if (config.primary) {
         this.classList.push("c-btn--primary");
     }
@@ -11,17 +20,10 @@ Sb.zendesk.Button = function (config) {
         this.handler = config.handler;
     }
 
-    this.templateData['text'] = config.text;
+    this.templateData['text'] = this.text;
 };
 
 (function (self) {
-    Sb.extend(self, Sb.Component.prototype);
-
-    self.baseClass = 'sb-zen-button';
-    self.text = null;
-    self.handler = function () {};
-    
-    self.template = '<div class="c-btn">{text}</div>';
 
     self.setHandler = function (handler) {
         var me = this;
@@ -36,5 +38,6 @@ Sb.zendesk.Button = function (config) {
         this.setHandler(this.handler);
     };
 })(Sb.zendesk.Button.prototype);
+Sb.extend(Sb.zendesk.Button, Sb.Component);
 
 Sb.ComponentManager.register('zen:button', Sb.zendesk.Button);

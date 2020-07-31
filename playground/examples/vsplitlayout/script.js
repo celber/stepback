@@ -1,16 +1,21 @@
-var viewport = new Sb.layout.Fit({
+var viewport =  new Sb.layout.VSplit({
+  id: 'vsplit0',
   items: [{
-          componentType: 'container',
-          classList: ['green-bg'],
-          items: [{
-              componentType: "zen:button",
-              primary: true,
-              text: "Click Me!",
-              handler: function () {
-                  alert("It works!");
-              }
-          }]
-      }]
-  });
-  
+      componentType: 'component',
+      id: 'vsplitChildComponent0',
+      template: '<div>{body}</div>',
+      templateData: {body: 'aaaaaaa'}
+  },{
+      componentType: 'component',
+      id: 'vsplitChildComponent1',
+      template: '<div>{body}</div>',
+      templateData: {body: 'bbbbb'}
+  },{
+      componentType: 'component',
+      id: 'vsplitChildComponent2',
+      template: '<div>{body}</div>',
+      templateData: {body: 'ccccc'}
+  }]
+});
+
 viewport.renderTo(Sb.queryOne("#app"));

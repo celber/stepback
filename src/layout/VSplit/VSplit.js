@@ -6,21 +6,22 @@ Sb.namespace("layout");
  */
 Sb.layout.VSplit = function (_config) {
     Sb.Container.call(this, _config);
-};
 
-(function (/** @alias Sb.layout.VSplit.prototype */ self) {
-    var baseClass = 'sb-vsplit-layout';
-    Sb.extend(self, Sb.Container.prototype);
+    this.baseClass = 'sb-vsplit-layout';
+
     /**
      * @override
      */
-    self.classList = self.classList.concat([baseClass]);
+    this.classList = this.classList.push(this.baseClass);
     
     /**
      * Default template
      * @override
      */
-    self.template = `<div></div>`;
+    this.template = `<div></div>`;
+};
+
+(function (/** @alias Sb.layout.VSplit.prototype */ self) {
 
     /**
      * @override
@@ -34,12 +35,12 @@ Sb.layout.VSplit = function (_config) {
      */
     self.afterItemRender = function (item, itemIdx, containerEl) {
         
-        item.addClass(baseClass+'-child');
+        item.addClass(this.baseClass+'-child');
 
         // append gutter
         // ignore last element so gutter is not added at the end
         if (itemIdx !==  ( this.items.length - 1 )) {
-            containerEl.append(self.createSplitBorder());
+            containerEl.append(this.createSplitBorder());
         }
     };
 
@@ -53,8 +54,9 @@ Sb.layout.VSplit = function (_config) {
      * @returns {Sb.Element}
      */
     self.createSplitBorder = function () {
-        return Sb.Element.render('<div class="'+baseClass+'-gutter">&nbsp;</div>');
+        return Sb.Element.render('<div class="'+this.baseClass+'-gutter">&nbsp;</div>');
     }
 })(Sb.layout.VSplit.prototype);
+Sb.extend(Sb.layout.VSplit, Sb.Container);
 
 Sb.ComponentManager.register('vsplit', Sb.layout.VSplit);

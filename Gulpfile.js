@@ -3,12 +3,15 @@ var KarmaServer = require('karma').Server;
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
-var serve = require('gulp-serve');
 var watch = require('gulp-watch');
 var sass = require('gulp-sass');
 var postcss = require('gulp-postcss');
 var postcssCustomSelectors = require('postcss-custom-selectors');
 var browserSync = require('browser-sync').create();
+var Docma = require('docma');
+var removeCode = require('gulp-remove-code');
+
+var buildOrder = require('./buildOrder.js');
 
 sass.compiler = require('node-sass');
 
@@ -21,7 +24,6 @@ exports['serve:homepage:sass'] = function() {
 };
 
 
-exports['serve:playground'] = serve({root: ['./docs/playground', './dist']});
 exports['serve:docs'] = function () {
   browserSync.init({
     server: "./docs/"
@@ -43,27 +45,13 @@ exports['serve:homepage'] = function() {
 };
 
 
-var fileList = [
-  './src/Core.js',
-  './src/ComponentManager.js',
-  './src/Component.js',
-  './src/Container.js',
-  './src/DOM/*.js',
-  './src/mixins/**/*.js',
-  './src/layout/Fit/*.js',
-  './src/layout/VSplit/VSplit.js',
-  './src/zendesk/Button/Button.js',
-  './src/zendesk/Arrow/Arrow.js',
-  './src/zendesk/menu/Item/Item.js',
-  './src/zendesk/Avatar/Avatar.js'
-];
-
 
 function concatJS () {
   return gulp
-    .src(fileList)
+    .src(buildOrder)
     .pipe(sourcemaps.init())
     .pipe(concat('sb.js'))
+    .pipe(removeCode({ debug: false }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist/'));
 }
@@ -96,6 +84,78 @@ const buildJS = gulp.series(concatJS, minifyJS);
 
 exports.buildJS = buildJS;
 
+function buildDocs() {
+  return Docma.create()
+    .build({
+      "src": ["./src/namespaces.js"].concat(buildOrder.concat([
+        "./README.md"
+      ])),
+      "assets": {
+        "./": ["./dist", "./playground"]
+      },
+      "dest": "./docs",
+      "clean": true,
+      "debug": false,
+      "jsdoc": {
+        "encoding": "utf8",
+        "recurse": true,
+        "pedantic": false,
+        "access": null,
+        "package": null,
+        "module": false,
+        "undocumented": false,
+        "undescribed": false,
+        "ignored": false,
+        "hierarchy": true,
+        "relativePath": null,
+        "filter": null,
+        "sort": "grouped",
+        "allowUnknownTags": false,
+        "plugins": []
+      },
+      "markdown": {
+        "gfm": true,
+        "tables": true,
+        "breaks": false,
+        "pedantic": false,
+        "sanitize": false,
+        "smartLists": true,
+        "smartypants": false,
+        "xhtml": false,
+        "tasks": true,
+        "emoji": true
+      },
+      "app": {
+        "title": "Svarog Documentation",
+        "meta": null,
+        "entrance": "content:readme",
+        "routing": "path"
+      },
+      "template": {
+        "options": {
+          "title": {
+            "label": "Svarog v1.0.0"
+          },
+          "sidebar": {
+            "itemsOverflow": "shrink",
+            "itemsFolded": false,
+            "badges": true
+          },
+          "symbols": {
+            "meta": true,
+            "params": "table",
+            "props": "table"
+          }
+        }
+      }
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+exports.buildDocs = buildDocs;
+
 /**
  * Run test once and exit
  */
@@ -120,7 +180,7 @@ function tdd(done) {
 };
 exports.tdd = tdd;
 
-const build = gulp.series(buildSCSS, buildJS);
+const build = gulp.series(buildSCSS, buildJS, buildDocs);
 exports.build = build;
 
 exports.default = build;
@@ -128,17 +188,13 @@ exports.default = build;
 exports.watch = gulp.series(build, function watchSrc() {
   browserSync.init({
     server: {
-      baseDir: "./test",
+      baseDir: "./docs",
     },
     ghostMode: false,
-    serveStatic: [{
-      route: '/dist',
-      dir: './dist'
-    }],
     port: 3001
   });
 
-  watch(fileList.concat(['./src/**/*.scss']), function(cb) {
+  watch(buildOrder.concat(['./src/**/*.scss', './src/**/*.js']), function(cb) {
     build(cb);
   });
 

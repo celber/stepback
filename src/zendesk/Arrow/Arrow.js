@@ -13,7 +13,6 @@ Sb.zendesk.Arrow = function (config) {
 };
 
 (function (/** @alias Sb.zendesk.Arrow.prototype */ self) {
-    Sb.extend(self, Sb.Container.prototype);
     self.baseClass = 'sb-zen-arrow';
 
     /**
@@ -21,6 +20,6 @@ Sb.zendesk.Arrow = function (config) {
      */
     self.template = '<ul class="c-arrow c-menu c-arrow--{orientation}"></ul>';
 })(Sb.zendesk.Arrow.prototype);
-
+Sb.extend(Sb.zendesk.Arrow, Sb.Container);
 
 Sb.ComponentManager.register('zen:arrow', Sb.zendesk.Arrow);

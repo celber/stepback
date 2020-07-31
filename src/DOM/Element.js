@@ -7,7 +7,7 @@
  */
 Sb.Element = function (el, config) {
     this.nativeElement = el;
-    Sb.extend(this.config, config);
+    Sb.merge(this.config, config);
 }; 
 
 /**

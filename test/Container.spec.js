@@ -4,10 +4,14 @@ describe('Container', function () {
             template: '<div class="testingContainer"></div>',
             items: [{
                 componentType: 'component',
-                id: 'childComponent0'
+                id: 'childComponent0',
+                template: '<div>{body}</div>',
+                templateData: {body: 'aaa'}
             }, {
                 componentType: 'component',
-                id: 'childComponent1'
+                id: 'childComponent1',
+                template: '<div>{body}</div>',
+                templateData: {body: 'bbb'}
             }]
         });
 
@@ -20,14 +24,18 @@ describe('Container', function () {
             template: '<div class="testingContainer2"></div>',
             items: [{
                 componentType: 'component',
-                id: 'childComponent2'
+                id: 'childComponent2',
+                template: '<div>{body}</div>',
+                templateData: {body: 'aaa'}
             }, {
                 componentType: 'component',
-                id: 'childComponent3'
+                id: 'childComponent3',
+                template: '<div>{body}</div>',
+                templateData: {body: 'bbb'}
             }]
         });
 
-
+debugger;
         container.renderTo(new Sb.Element(document.body));
 
         container.addItem({

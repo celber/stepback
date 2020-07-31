@@ -24,7 +24,7 @@ or this for **development** instance
 <script src='https://cdn.jsdelivr.net/gh/celber/stepback/dist/sb.js' type='text/javascript'></script>
 ```
 
-Check [documentation](https://celber.github.io/stepback/docs/) or [examples](https://celber.github.io/stepback/playground/index.html) to see how to write your application.
+Check [documentation](./api/) or [examples](/playground/index.html) to see how to write your application.
 
 ## Roadmap
 

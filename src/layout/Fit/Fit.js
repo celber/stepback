@@ -6,18 +6,22 @@ Sb.namespace("layout");
  * @param {Object} [_config={}] config
  */
 Sb.layout.Fit = function (_config) {
-    Sb.Container.call(this, _config);
+  Sb.Container.call(this, _config);
+  
+  this.baseClass = 'sb-fit-layout';
+
+  this.classList = this.classList.push(this.baseClass);
+    
+  /**
+   * Default template
+   * @override
+   */
+  this.template = `<div></div>`;
 };
 
 (function (/** @alias Sb.layout.Fit.prototype */ extend) {
-    Sb.extend(extend, Sb.Container.prototype);
-    extend.classList = extend.classList.concat(['sb-fit-layout']);
     
-    /**
-     * Default template
-     * @override
-     */
-    extend.template = `<div></div>`;
 })(Sb.layout.Fit.prototype);
 
+Sb.extend(Sb.layout.Fit, Sb.Container);
 Sb.ComponentManager.register('fit', Sb.layout.Fit);

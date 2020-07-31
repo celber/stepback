@@ -10,13 +10,12 @@ Sb.zendesk.Avatar = function (config) {
 };
 
 (function (self) {
-    Sb.extend(self, Sb.Component.prototype);
     self.baseClass = 'sb-zen-avatar';
 
     self.template = `<figure class="c-avatar {system} c-avatar--size">
         <img alt='' src={src}>
     </figure> `;
 })(Sb.zendesk.Avatar.prototype);
-
+Sb.extend(Sb.zendesk.Avatar, Sb.Component);
 
 Sb.ComponentManager.register('zen:avatar', Sb.zendesk.Avatar);

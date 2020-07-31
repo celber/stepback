@@ -70,20 +70,46 @@ Sb.clone = function (source) {
  * 
  * @returns null
  */
-Sb.extend = function (target, source) {
+Sb.merge = function (target, source) {
     for (var key in source) {
         if (source[key] instanceof Array) {
             (target[key] === undefined) && (target[key] = []);
             target[key] = target[key].concat(source[key]);
         } else if (typeof source[key] == 'object' && typeof target[key] == 'object' && target[key] !== null) {
             (target[key] === undefined) && (target[key] = {}); 
-            this.extend(target[key], source[key]);
+            this.merge(target[key], source[key]);
         } else {
             target[key] = source[key];
         }
     }
 
     return null;
+};
+
+/**
+ * Extends an object with given source *recursively*
+ * Also merges arrays and nested objects
+ * @param {Object} target
+ * @param {Object} source
+ * 
+ * @returns null
+ */
+Sb.extend = function (target, source) {
+  if (!target.prototype) target.prototype = {};
+  
+  Object.setPrototypeOf(target.prototype, source.prototype);
+};
+
+/**
+ * Extends an object with given source *recursively*
+ * Also merges arrays and nested objects
+ * @param {Object} target
+ * @param {Object} source
+ * 
+ * @returns null
+ */
+Sb.mixin = function (target, source) {
+  Sb.merge(target.prototype, source.prototype);
 };
 
 /**

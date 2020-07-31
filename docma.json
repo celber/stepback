@@ -4,6 +4,7 @@
     "./src/namespaces.js",
     "./src/mixins/**/*.js",
     "./src/ComponentManager.js",
+    "./src/Worker.js",
     "./src/Component.js",
     "./src/Container.js",
     "./src/DOM/*.js",
@@ -13,7 +14,7 @@
     "./src/zendesk/Arrow/Arrow.js",
     "./src/zendesk/menu/Item/Item.js",
     "./src/zendesk/Avatar/Avatar.js",
-      "./README.md"
+    "./README.md"
   ],
   "dest": "./docs",
   "clean": true,
@@ -58,6 +59,9 @@
   },
   "template": {
     "options": {
+      "title": {
+        "label": "Svarog v1.0.0"
+      },
       "sidebar": {
         "itemsOverflow": "shrink",
         "itemsFolded": true,

@@ -18,7 +18,6 @@ describe('VSplit layout', function () {
         container.renderTo(new Sb.Element(document.body));
 
         expect(container.el.nativeElement).toBeDefined();
-
         expect(container.el.nativeElement.querySelectorAll('.sb-vsplit-layout-gutter').length).toBe(2);
         expect(container.el.nativeElement.querySelectorAll('.sb-vsplit-layout-child').length).toBe(3);
     });

@@ -6,10 +6,10 @@ Sb.zendesk.menu.Item = function (config) {
 };
 
 (function (self) {
-    Sb.extend(self, Sb.zendesk.Button.prototype);
     self.baseClass = 'sb-zen-menuitem';
 
     self.template = '<div class="c-menu__item">{text}</div>';
 })(Sb.zendesk.menu.Item.prototype);
+Sb.extend(Sb.zendesk.menu.Item, Sb.zendesk.Button);
 
 Sb.ComponentManager.register('zen:menuitem', Sb.zendesk.menu.Item);

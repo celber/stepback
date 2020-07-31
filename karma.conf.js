@@ -1,5 +1,7 @@
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 
+var buildOrder = require('./buildOrder.js');
+
 module.exports = function(config) {
     config.set({
       browsers: ['FirefoxHeadless'],
@@ -19,17 +21,7 @@ module.exports = function(config) {
         },
       },
       frameworks: ['jasmine'],
-      files: [
-        'src/Core.js',
-        'src/DOM/**/*.js',
-        'src/mixins/**/*.js',
-        'src/ComponentManager.js',
-        'src/Component.js',
-        'src/Container.js',
-        'src/zendesk/Button/Button.js',
-        'src/layout/Fit/*.js',
-        'src/layout/VSplit/*.js',
-        'test/**/*.spec.js'
-      ]
+      files: [{included: false, served: true, watched: true, pattern: 'test/fixtures/**/*'}]
+        .concat(buildOrder).concat(['test/**/*.spec.js'])
     });
   };
