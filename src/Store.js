@@ -1,3 +1,0 @@
-Sb.Store = function () {
-  
-}
