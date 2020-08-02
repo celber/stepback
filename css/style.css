@@ -6420,7 +6420,7 @@ h1, h2, h3, h4, h5,
 .fake-field {
   margin-top: 20px;
   display: inline-block;
-  width: 400px;
+  max-width: 800px;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ffffff94;
