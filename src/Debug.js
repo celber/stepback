@@ -1,30 +1,66 @@
 //removeIf(!debug)
+'use strict';
 
 Sb.namespace('debug');
 
-Sb.debug = {
-  stats: {
+/**
+ * @classdesc Debugging utilities
+ * @class
+ * @singleton
+ */
+Sb.debug = (new function () {
+  /**
+   * Current runtime statistics
+   */
+  this.stats = {
     componentsCreated: 0,
-    initTime: "Not checked. Use <pre>Sb.debug.markEndOfInit();</pre> after app initial script"
-  },
-  _startOfInit: performance.now(),
-  popups: true
-};
+    /**
+     * @type Number | String
+     */
+    initTime: 'Not checked. Use <pre>Sb.debug.markEndOfInit();</pre> after app initial script',
+  };
 
-Sb.debug.popup = function (level, msg) {
-  
-};
+  this._startOfInit = performance.now();
+  /**
+   * Container wrapper for nested components
+   */
+  this.popups = true;
 
-Sb.debug.warn = function (context, msg) {
-  console.warn(`${msg}`);
-};
+  this.level = 0x15;
+  this.NONE = 0x0;
+  this.ERROR = 0x1;
+  this.WARN = 0x3;
+  this.INFO = 0x7;
+  this.DEBUG = 0x15;
 
-Sb.debug.error = function () {
-  throw "error handling is not part of Sb.debug module. Use Sb.error instead";
-};
+  return this;
+}());
 
-Sb.debug.markEndOfInit = function () {
-  Sb.debug.stats.initTime = performance.now() - Sb.debug._startOfInit;
-}
+
+(function (/** @alias Sb.debug.prototype */ self) {
+  self.popup = function (level, msg) {};
+
+  self.warn = function (context, msg) {
+    console.warn(`🤒 ${msg}`);
+  };
+
+  self.error = function () {
+    throw '🐄 error handling is not part of Sb.debug module. Use Sb.error instead';
+  };
+
+  self.markEndOfInit = function () {
+    Sb.debug.stats.initTime = performance.now() - Sb.debug._startOfInit;
+  };
+
+  self.info = function (context, msg) {
+    console.info(`${msg}`);
+  };
+
+  self.log = function (context, msg) {
+    console.log(`${msg}`);
+  };
+}(Sb.debug.constructor.prototype));
+
+Sb.debug.log(null, 'Debug tools are ready');
 
 //endRemoveIf(!debug)

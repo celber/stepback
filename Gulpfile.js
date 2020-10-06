@@ -44,7 +44,6 @@ function concatJS () {
     .src(buildOrder)
     .pipe(sourcemaps.init())
     .pipe(concat('sb.js'))
-    .pipe(removeCode({ debug: false }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist/'));
 }
@@ -69,7 +68,10 @@ function buildSCSS () {
 
 function minifyJS() {
   return gulp.src(['./dist/sb.js'])
-    .pipe(minify())
+    .pipe(removeCode({ debug: false }))
+    .pipe(minify({
+      noSource: true
+    }))
     .pipe(gulp.dest('dist'))
 }
 
@@ -190,10 +192,19 @@ exports.test = test;
  * Watch for file changes and re-run tests on each change
  */
 function tdd(done) {
-  new KarmaServer({
+  const server = new KarmaServer({
     configFile: __dirname + '/karma.conf.js',
     singleRun: false
-  }, done).start();
+  }, done);
+
+  server.start();
+
+  server.on('run_complete', function (browsers, result) {
+    if (!result.error) {
+      console.log('Tests did not fail, building new package.')
+      build();
+    }
+  });
 };
 exports.tdd = tdd;
 

@@ -12,13 +12,12 @@ Sb.mixin.Observable = function () {
 };
 
 (function (/** @alias Sb.mixin.Observable.prototype */ self) {
-
   /**
    * Attach event callback
-   * @param {String} eventName 
-   * @param {Function} callback 
-   * @param {Object} [_options] 
-   * 
+   * @param {String} eventName
+   * @param {Function} callback
+   * @param {Object} [_options]
+   *
    * @returns {Symbol} listener Id
    */
   self.on = function (eventName, callback, _options) {
@@ -26,12 +25,12 @@ Sb.mixin.Observable = function () {
 
     if (!this.listeners[eventName]) {
       this.listeners[eventName] = [];
-    } 
+    }
 
     this.listeners[eventName].push({
       eventId: eventId,
       callback: callback,
-      options: _options || {}
+      options: _options || {},
     });
 
     return eventId;
@@ -39,16 +38,14 @@ Sb.mixin.Observable = function () {
 
   /**
    * Dettach event by its name+callback or symbol returned by .on
-   * @param {String|Symbol} eventName 
-   * @param {Function} [_callback] 
+   * @param {String|Symbol} eventName
+   * @param {Function} [_callback]
    */
-  self.off = function (eventName, _callback) {
-
-  };
+  self.off = function (eventName, _callback) {};
 
   /**
    * Fire event
-   * @param {String} eventName 
+   * @param {String} eventName
    * @param {Object} [_values]
    */
   self.fire = function (eventName, _values) {
@@ -57,9 +54,8 @@ Sb.mixin.Observable = function () {
     if (this.listeners[eventName]) {
       for (i in this.listeners[eventName]) {
         event = this.listeners[eventName][i];
-
-        event.callback(_values)
+        event.callback(_values);
       }
     }
-  }
-}(Sb.mixin.Observable.prototype));
+  };
+})(Sb.mixin.Observable.prototype);
