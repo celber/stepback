@@ -45,7 +45,7 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-jasmine": "^2.0.1",
     "karma-phantomjs-launcher": "^1.0.4",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "postcss-custom-selectors": "^5.1.2",
     "postcss-import": "^12.0.1",
     "postcss-scss": "^2.0.0",
