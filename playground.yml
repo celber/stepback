@@ -1,0 +1,10 @@
+title: Stepback Playground
+logo: 'logo.png'
+runtime:
+  - type: js
+    path: ../dist/sb.js
+  - type: css
+    path: ../dist/sb.js
+out: ./dist/examples
+src: ./examples
+styles:

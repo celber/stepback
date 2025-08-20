@@ -1,6 +1,33 @@
+@import 'runBtn.css';
+
 body {
     margin: 0;
 }
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+[data-tooltip]:hover::after {
+    display: block;
+    position: absolute;
+    content: attr(data-tooltip);
+    background: #87a4a9;
+    padding: 1em;
+    width: 30rem;
+    z-index: 2000;
+    font-size: 0.8em;
+    font-family: 'Quicksand', sans-serif;
+    border-radius: 5px;
+
+}
+
 .header {
     height: 50px;
     padding: 10px;
@@ -26,7 +53,6 @@ body {
     margin-left: 26px;
     background-position: center -83px;
     background-size: 224px;
-    background-image: url(logo.png);
 }
 .title {
     font-family: 'Quicksand', sans-serif;
@@ -67,13 +93,16 @@ body {
     display: block;
     opacity: 1;
 }
-#examplesBtn .dropdown a{
-    display: block;
+
+#examplesBtn .infoBtn {
+    display: inline-block;
+}
+
+#examplesBtn .dropdown a {
+    display: inline-block;
     margin-top: 10px;
     color: white;
 }
-
-
 
 
 .editor {

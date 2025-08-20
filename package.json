@@ -4,13 +4,18 @@
   "description": "Fast & simple Web application UI framework",
   "main": "Gulpfile.js",
   "directories": {
-    "test": "test"
+    "test": "test",
+    "examples": "examples"
   },
   "scripts": {
     "test": "npx gulp test",
+    "examples": "npx @stepback/playground --config ./playground.yml",
     "build:docs": "npx gulp build:docs",
     "build": "npx gulp build"
   },
+  "workspaces": [
+    "./lib/*"
+  ],
   "keywords": [
     "web",
     "ui",
